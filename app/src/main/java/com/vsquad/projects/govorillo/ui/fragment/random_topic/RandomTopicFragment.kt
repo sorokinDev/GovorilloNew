@@ -13,6 +13,7 @@ import com.vsquad.projects.govorillo.presentation.presenter.random_topic.RandomT
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.vsquad.projects.govorillo.GovorilloApplication
+import com.vsquad.projects.govorillo.Screens
 import com.vsquad.projects.govorillo.common.SpeakingState
 import com.vsquad.projects.govorillo.model.entity.TopicEntity
 import com.vsquad.projects.govorillo.presentation.presenter.twister.TwisterFragmentPresenter
@@ -36,9 +37,13 @@ class RandomTopicFragment : MvpAppCompatFragment(), RandomTopicFragmentView {
                 btn_next_topic.visibility = View.GONE
                 btn_switch_speaking.setText("Wait...")
             }
-            SpeakingState.STOPPING -> {
+            SpeakingState.FINISHING -> {
                 btn_next_topic.visibility = View.GONE
                 btn_switch_speaking.setText("Analyzing...")
+            }
+            SpeakingState.FINISHED -> {
+                btn_next_topic.visibility = View.VISIBLE
+                btn_switch_speaking.setText("Start")
             }
         }
     }

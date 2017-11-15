@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.MenuItem
@@ -22,16 +23,16 @@ import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.Screens
 import com.vsquad.projects.govorillo.common.RouterProvider
 import com.vsquad.projects.govorillo.ui.fragment.random_topic.RandomTopicFragment
+import com.vsquad.projects.govorillo.ui.fragment.random_topic.RandomTopicResultFragment
 import com.vsquad.projects.govorillo.ui.fragment.twister.TwisterFragment
 
 import kotlinx.android.synthetic.main.activity_main.*;
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.commands.Back
-import ru.terrakok.cicerone.commands.Command
-import ru.terrakok.cicerone.commands.Replace
-import ru.terrakok.cicerone.commands.SystemMessage
+import ru.terrakok.cicerone.android.SupportAppNavigator
+import ru.terrakok.cicerone.android.SupportFragmentNavigator
+import ru.terrakok.cicerone.commands.*
 import javax.inject.Inject
 
 
@@ -93,6 +94,11 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
         return true
     }
 
+    /*private val navigator = SupportFragmentNavigator(supportFragmentManager, R.id.frame_content){
+
+    }*/
+
+
     private val navigator = Navigator { command ->
         if (command is Back) {
             finish()
@@ -106,6 +112,13 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
                 else -> TwisterFragment.newInstance()
             }
             fm.beginTransaction().replace(R.id.frame_content, fragment).commit()
+        } else if(command is Forward){
+            val fm = supportFragmentManager
+            val fragment: Fragment = when(command.screenKey){
+                Screens.RANDOM_TOPIC_RESULT_SCREEN-> RandomTopicResultFragment.newInstance()
+                else -> TwisterFragment.newInstance()
+            }
+            fm.beginTransaction().add(R.id.frame_content, fragment).commit()
         }
     }
     //endregion

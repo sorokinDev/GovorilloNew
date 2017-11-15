@@ -9,5 +9,6 @@ class Screens {
         val OWN_TEXT_SCREEN = "own_text_screen"
         val TWISTER_SCREEN = "twister_screen"
         val RANDOM_TOPIC_SCREEN = "random_topic_screen"
+        val RANDOM_TOPIC_RESULT_SCREEN = "random_topic_result_screen"
     }
 }

@@ -3,6 +3,7 @@ package com.vsquad.projects.govorillo.presentation.presenter.random_topic
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.vsquad.projects.govorillo.GovorilloApplication
+import com.vsquad.projects.govorillo.Screens
 import com.vsquad.projects.govorillo.common.SpeakingState
 import com.vsquad.projects.govorillo.model.repository.TopicRepository
 import com.vsquad.projects.govorillo.presentation.view.random_topic.RandomTopicFragmentView
@@ -38,11 +39,12 @@ class RandomTopicFragmentPresenter : MvpPresenter<RandomTopicFragmentView>() {
             speakingState = SpeakingState.STARTED
             viewState.setSpeakingState(speakingState)
         }else if (speakingState == SpeakingState.STARTED){
-            speakingState = SpeakingState.STOPPING
+            speakingState = SpeakingState.FINISHING
             viewState.setSpeakingState(speakingState)
             Thread.sleep(1000)
-            speakingState = SpeakingState.STOPPED
+            speakingState = SpeakingState.FINISHED
             viewState.setSpeakingState(speakingState)
+            router.navigateTo(Screens.RANDOM_TOPIC_RESULT_SCREEN)
         }
 
     }

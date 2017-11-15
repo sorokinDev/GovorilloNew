@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Govorillo</string>
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+    <string name="nav_main">Main</string>
+    <string name="nav_random_topic">Random topic</string>
+    <string name="nav_own_text">Own text</string>
+    <string name="nav_twister">Tongue twister</string>
+</resources>

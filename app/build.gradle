@@ -45,5 +45,12 @@ dependencies {
     compile 'com.google.dagger:dagger:2.13'
     kapt 'com.google.dagger:dagger-compiler:2.13'
 
+    //UI
     compile 'com.github.medyo:fancybuttons:1.8.4'
+    compile 'pl.bclogic:pulsator4droid:1.0.3'
+
+    //Yandex speech kit
+    compile 'com.yandex.android:speechkit:2.5.0'
+
+
 }

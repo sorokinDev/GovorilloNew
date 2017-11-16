@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,13 +10,43 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
-        <TextView
-            android:id="@+id/tv_topic"
-            android:layout_alignParentTop="true"
+
+            <TextView
+                android:id="@+id/tv_topic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                tools:text="Это какая-то очень большая тема... Интересно, она будет нормально отображаться? Надеюсь да"/>
+        <LinearLayout
+            android:id="@+id/ll_while_prep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            tools:text="How is your day?"/>
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_time_for_speech"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                tools:text="Желаемое время выступления: 2 мин"/>
+            <TextView
+                android:id="@+id/tv_time_for_preparing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                tools:text="Время на подготовку: 60 сек"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_while_speaking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_speech_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                tools:text="Время: 00:10"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -25,29 +55,49 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:animateLayoutChanges="true">
-        <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/btn_switch_speaking"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:padding="10dp"
-            android:text="Start speaking"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            fancy:fb_defaultColor="#3f729b"
-            fancy:fb_focusColor="#313131"
-            fancy:fb_radius="200dp"
-            />
+        <RelativeLayout
+            android:layout_width="260dp"
+            android:layout_height="260dp"
+            android:layout_gravity="center_horizontal">
+            <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                android:id="@+id/pulsator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:pulse_count="5"
+                app:pulse_duration="2000"
+                app:pulse_repeat="0"
+                app:pulse_color="@color/colorAccent"
+                app:pulse_startFromScratch="false"
+                app:pulse_interpolator="AccelerateDecelerate">
+                <mehdi.sakout.fancybuttons.FancyButton
+                    android:id="@+id/btn_switch_speaking"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="20dp"
+                    android:text="start"
+                    app:fb_fontIconSize="100sp"
+                    app:fb_defaultColor="#3f729b"
+                    app:fb_focusColor="#313131"
+                    app:fb_iconPosition="top"
+                    app:fb_fontIconResource="&#xf130;"
+                    app:fb_radius="180dp"
+                    />
+            </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+        </RelativeLayout>
         <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/btn_next_topic"
-            android:layout_width="200dp"
+            android:layout_width="180dp"
             android:layout_height="64dp"
             android:layout_marginBottom="16dp"
-            android:text="Next topic"
+
+            android:text="Следующая тема"
             android:layout_gravity="center_horizontal"
-            fancy:fb_defaultColor="#3f729b"
-            fancy:fb_focusColor="#313131"
-            fancy:fb_iconPaddingLeft="0dp"
-            fancy:fb_iconPaddingRight="0dp"
-            fancy:fb_radius="200dp"/>
+            app:fb_defaultColor="#3f729b"
+            app:fb_focusColor="#313131"
+            app:fb_iconPaddingLeft="0dp"
+            app:fb_iconPaddingRight="0dp"
+            app:fb_radius="200dp"/>
     </LinearLayout>
 </RelativeLayout>

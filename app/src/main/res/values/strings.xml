@@ -6,4 +6,8 @@
     <string name="nav_random_topic">Random topic</string>
     <string name="nav_own_text">Own text</string>
     <string name="nav_twister">Tongue twister</string>
+
+    <string name="time_for_preparing">Time for preparing: %1$d sec</string>
+    <string name="time_for_speech">Time for speech: %1$d min</string>
+    <string name="speech_time">Time: %1$d:%2$d</string>
 </resources>

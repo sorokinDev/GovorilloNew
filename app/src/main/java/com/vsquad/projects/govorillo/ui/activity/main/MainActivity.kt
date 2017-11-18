@@ -18,15 +18,19 @@ import com.vsquad.projects.govorillo.presentation.presenter.main.MainActivityPre
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.Screens
+import com.vsquad.projects.govorillo.common.PrefConst
+import com.vsquad.projects.govorillo.common.SharedPrefUtils
+import com.vsquad.projects.govorillo.ui.fragment.auth.AuthFragment
+import com.vsquad.projects.govorillo.ui.fragment.free_topic.FreeTopicFragment
+import com.vsquad.projects.govorillo.ui.fragment.profile.ProfileFragment
 import com.vsquad.projects.govorillo.ui.fragment.random_topic.RandomTopicFragment
 import com.vsquad.projects.govorillo.ui.fragment.result.TopicResultFragment
 import com.vsquad.projects.govorillo.ui.fragment.twister.TwisterFragment
 
 import kotlinx.android.synthetic.main.activity_main.*;
-import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.android.SupportFragmentNavigator
+import ru.terrakok.cicerone.android.SupportAppNavigator
 import ru.terrakok.cicerone.commands.*
 import javax.inject.Inject
 
@@ -67,6 +71,15 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
         nav_view.setNavigationItemSelectedListener(){
             navigationItemSelected(it)
         }
+
+        nav_view.getHeaderView(0).setOnClickListener {
+            if(SharedPrefUtils.sPref.getBoolean(PrefConst.USER_AUTHORIZED, false)){
+                router.newRootScreen(Screens.PROFILE_SCREEN)
+            }else{
+                router.newRootScreen(Screens.AUTH_SCREEN)
+            }
+            drawer_layout.closeDrawer(Gravity.START)
+        }
     }
 
     //region LIFECICLE NEEDS
@@ -89,7 +102,11 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
         return true
     }
 
-    private val navigator = object : SupportFragmentNavigator(supportFragmentManager, R.id.frame_content){
+    private val navigator = object : SupportAppNavigator(this, R.id.frame_content){
+        override fun createActivityIntent(screenKey: String?, data: Any?): Intent? {
+            return null
+        }
+
         override fun setupFragmentTransactionAnimation(command: Command?, currentFragment: Fragment?, nextFragment: Fragment?, fragmentTransaction: FragmentTransaction?) {
             super.setupFragmentTransactionAnimation(command, currentFragment, nextFragment, fragmentTransaction)
             if(command is Replace){
@@ -102,11 +119,12 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
 
         override fun createFragment(screenKey: String?, data: Any?): Fragment {
             val fragment: Fragment = when(screenKey){
-                Screens.MAIN_SCREEN -> TwisterFragment.newInstance()
+                Screens.MAIN_SCREEN -> FreeTopicFragment.newInstance()
                 Screens.TWISTER_SCREEN -> TwisterFragment.newInstance()
-                Screens.OWN_TEXT_SCREEN-> TwisterFragment.newInstance()
                 Screens.RANDOM_TOPIC_SCREEN -> RandomTopicFragment.newInstance()
                 Screens.TOPIC_RESULT_SCREEN -> TopicResultFragment.newInstance()
+                Screens.AUTH_SCREEN -> AuthFragment.newInstance()
+                Screens.PROFILE_SCREEN -> ProfileFragment.newInstance()
                 else -> TwisterFragment.newInstance()
             }
             return fragment
@@ -121,30 +139,6 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
         }
 
     }
-
-
-    /*private val navigator = Navigator { command ->
-        if (command is Back) {
-            finish()
-        } else if (command is Replace) {
-            val fm = supportFragmentManager
-            val fragment: Fragment = when(command.screenKey){
-                Screens.MAIN_SCREEN -> TwisterFragment.newInstance()
-                Screens.TWISTER_SCREEN -> TwisterFragment.newInstance()
-                Screens.OWN_TEXT_SCREEN-> TwisterFragment.newInstance()
-                Screens.RANDOM_TOPIC_SCREEN -> RandomTopicFragment.newInstance()
-                else -> TwisterFragment.newInstance()
-            }
-            fm.beginTransaction().replace(R.id.frame_content, fragment).commit()
-        } else if(command is Forward){
-            val fm = supportFragmentManager
-            val fragment: Fragment = when(command.screenKey){
-                Screens.TOPIC_RESULT_SCREEN -> TopicResultFragment.newInstance()
-                else -> TwisterFragment.newInstance()
-            }
-            fm.beginTransaction().add(R.id.frame_content, fragment).commit()
-        }
-    }*/
     //endregion
 
     //region VIEW STATE IMPLEMENTATION

@@ -1,26 +1,18 @@
 package com.vsquad.projects.govorillo.presentation.presenter.result
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import com.arellomobile.mvp.MvpView
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.common.PrefConst
-import com.vsquad.projects.govorillo.model.repository.TopicRepository
-import com.vsquad.projects.govorillo.presentation.view.result.TopicResultFragmentView
-import ru.terrakok.cicerone.Router
-import java.util.prefs.Preferences
-import javax.inject.Inject
+import com.vsquad.projects.govorillo.presentation.presenter.base.BaseFragmentPresenter
 
-@InjectViewState
-class TopicResultFragmentPresenter : MvpPresenter<TopicResultFragmentView>() {
-    @Inject lateinit var router: Router
+/**
+ * Created by Vova on 17.11.2017.
+ */
 
-    init {
-        GovorilloApplication.INSTANCE.getAppComponent().inject(this)
-
-    }
-
+abstract class BaseResultPresenter<T : MvpView> : BaseFragmentPresenter<T>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         val sPref = GovorilloApplication.INSTANCE.getSharedPreferences(PrefConst.APP_PREFERENCES, Context.MODE_PRIVATE)
@@ -29,7 +21,6 @@ class TopicResultFragmentPresenter : MvpPresenter<TopicResultFragmentView>() {
         if(!isUserAuth){
             timesResShowed += 1
             sPref.edit().putInt(PrefConst.TIMES_RESULT_SHOWED, timesResShowed).apply()
-
         }
     }
 }

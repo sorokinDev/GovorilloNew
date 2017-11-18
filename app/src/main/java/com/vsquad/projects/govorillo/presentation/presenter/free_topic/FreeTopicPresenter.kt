@@ -1,26 +1,19 @@
-package com.vsquad.projects.govorillo.presentation.presenter.random_topic
+package com.vsquad.projects.govorillo.presentation.presenter.free_topic
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.Screens
 import com.vsquad.projects.govorillo.common.SpeakingState
-import com.vsquad.projects.govorillo.model.repository.TopicRepository
-import com.vsquad.projects.govorillo.presentation.view.random_topic.RandomTopicFragmentView
-import ru.terrakok.cicerone.Router
-import ru.yandex.speechkit.Error
-import ru.yandex.speechkit.Recognition
-import ru.yandex.speechkit.Recognizer
-import ru.yandex.speechkit.RecognizerListener
-import ru.yandex.speechkit.SpeechKit
-import javax.inject.Inject
+import com.vsquad.projects.govorillo.presentation.presenter.base.BaseFragmentPresenter
+import com.vsquad.projects.govorillo.presentation.view.free_topic.FreeTopicView
+import ru.yandex.speechkit.*
 
 @InjectViewState
-class RandomTopicFragmentPresenter : MvpPresenter<RandomTopicFragmentView>() {
-
-    @Inject lateinit var router: Router
-    @Inject lateinit var repository: TopicRepository
+class FreeTopicPresenter : BaseFragmentPresenter<FreeTopicView>() {
+    override var isOpen: Boolean = false
     var recognizerListener = object : RecognizerListener {
         override fun onRecordingDone(p0: Recognizer?) {
 
@@ -54,7 +47,9 @@ class RandomTopicFragmentPresenter : MvpPresenter<RandomTopicFragmentView>() {
         override fun onRecognitionDone(p0: Recognizer?, p1: Recognition?) {
             speakingState = SpeakingState.FINISHED
             viewState.setSpeakingState(speakingState)
+            Log.d("text", p1!!.bestResultText)
             router.navigateTo(Screens.TOPIC_RESULT_SCREEN)
+
         }
 
         override fun onError(p0: Recognizer?, p1: Error?) {
@@ -69,20 +64,9 @@ class RandomTopicFragmentPresenter : MvpPresenter<RandomTopicFragmentView>() {
         GovorilloApplication.INSTANCE.getAppComponent().inject(this)
         SpeechKit.getInstance().configure(GovorilloApplication.INSTANCE.applicationContext,
                 "ff1fb365-dd6d-4670-adf1-9073ba9d297d")
-
     }
 
-    var speakingState:SpeakingState = SpeakingState.STOPPED
-
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        setRandomTopic()
-    }
-
-    fun setRandomTopic(){
-        viewState.setSpeakingState(speakingState)
-        viewState.setTopic(repository.getRandomTopic())
-    }
+    var speakingState: SpeakingState = SpeakingState.STOPPED
 
     @SuppressLint("MissingPermission")
     fun switchSpeakingState(){
@@ -98,9 +82,5 @@ class RandomTopicFragmentPresenter : MvpPresenter<RandomTopicFragmentView>() {
         }
 
     }
-    //endregion
-
-
-
 
 }

@@ -1,38 +1,35 @@
-package com.vsquad.projects.govorillo.ui.fragment.twister
+package com.vsquad.projects.govorillo.ui.fragment.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.vsquad.projects.govorillo.R
-import com.vsquad.projects.govorillo.presentation.view.twister.TwisterView
-import com.vsquad.projects.govorillo.presentation.presenter.twister.TwisterPresenter
+import com.vsquad.projects.govorillo.presentation.view.profile.ProfileView
+import com.vsquad.projects.govorillo.presentation.presenter.profile.ProfilePresenter
 
-import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
-import ru.terrakok.cicerone.Router
-import javax.inject.Inject
 
-class TwisterFragment : BaseFragment(), TwisterView {
-    override var fragmentTitle: String = "Скороговорки"
+import kotlinx.android.synthetic.main.fragment_profile.*
+
+class ProfileFragment : BaseFragment(), ProfileView {
+    override var fragmentTitle: String = "Профиль"
 
     companion object {
-        const val TAG = "TwisterFragment"
+        const val TAG = "ProfileFragment"
 
-        fun newInstance(): TwisterFragment {
-            val fragment: TwisterFragment = TwisterFragment()
+        fun newInstance(): ProfileFragment {
+            val fragment: ProfileFragment = ProfileFragment()
             val args: Bundle = Bundle()
             fragment.arguments = args
             return fragment
         }
     }
 
-    //region INJECTIONS
     @InjectPresenter
-    lateinit var mTwisterPresenter: TwisterPresenter
-    //endregion
+    lateinit var mProfilePresenter: ProfilePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         GovorilloApplication.INSTANCE.getAppComponent().inject(this)
@@ -41,11 +38,13 @@ class TwisterFragment : BaseFragment(), TwisterView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_twister, container, false)
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        btn_exit.setOnClickListener {
+            mProfilePresenter.exitUser()
+        }
     }
 }

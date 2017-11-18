@@ -12,5 +12,8 @@ class PrefConst{
         val APP_PREFERENCES = "govorilloPref"
         val TIMES_RESULT_SHOWED = "timesResultShowed"
         val USER_AUTHORIZED = "userAuthorized"
+        val USER_EMAIL = "userEmail"
+        val USER_PASS = "userPass"
+        val USER_TOKEN = "userToken"
     }
 }

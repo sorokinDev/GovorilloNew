@@ -8,22 +8,25 @@ import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.vsquad.projects.govorillo.R
-import com.vsquad.projects.govorillo.presentation.view.random_topic.RandomTopicFragmentView
-import com.vsquad.projects.govorillo.presentation.presenter.random_topic.RandomTopicFragmentPresenter
+import com.vsquad.projects.govorillo.presentation.view.random_topic.RandomTopicView
+import com.vsquad.projects.govorillo.presentation.presenter.random_topic.RandomTopicPresenter
 
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.vsquad.projects.govorillo.GovorilloApplication
-import com.vsquad.projects.govorillo.Screens
 import com.vsquad.projects.govorillo.common.MyTimer
 import com.vsquad.projects.govorillo.common.PrefConst
 import com.vsquad.projects.govorillo.common.SpeakingState
 import com.vsquad.projects.govorillo.model.entity.TopicEntity
+import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 import kotlinx.android.synthetic.main.fragment_random_topic.*;
 
-class RandomTopicFragment : MvpAppCompatFragment(), RandomTopicFragmentView {
+
+class RandomTopicFragment : BaseFragment(), RandomTopicView {
+    override var fragmentTitle: String = "Рассуждения"
+
     override fun onPause() {
         super.onPause()
         tmrPreparing.stop()
@@ -32,15 +35,8 @@ class RandomTopicFragment : MvpAppCompatFragment(), RandomTopicFragmentView {
 
     override fun onStart() {
         super.onStart()
-        val sPref = GovorilloApplication.INSTANCE.getSharedPreferences(PrefConst.APP_PREFERENCES, Context.MODE_PRIVATE)
-        if(!sPref.getBoolean(PrefConst.USER_AUTHORIZED, false) && sPref.getInt(PrefConst.TIMES_RESULT_SHOWED, 0) > 3){
-            router.newRootScreen(Screens.AUTHENTICATION_SCREEN)
-            return
-        }
-        mRandomTopicFragmentPresenter.setRandomTopic()
+        mRandomTopicPresenter.setRandomTopic()
         tmrPreparing.start()
-
-        Log.d("Randtop", "onStart")
     }
 
     override fun onResume() {
@@ -91,11 +87,9 @@ class RandomTopicFragment : MvpAppCompatFragment(), RandomTopicFragmentView {
     }
 
     //region INJECTIONS
-    @Inject
-    lateinit var router: Router
 
     @InjectPresenter
-    lateinit var mRandomTopicFragmentPresenter: RandomTopicFragmentPresenter
+    lateinit var mRandomTopicPresenter: RandomTopicPresenter
     //endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,10 +105,10 @@ class RandomTopicFragment : MvpAppCompatFragment(), RandomTopicFragmentView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_next_topic.setOnClickListener {
-            mRandomTopicFragmentPresenter.setRandomTopic()
+            mRandomTopicPresenter.setRandomTopic()
         }
         btn_switch_speaking.setOnClickListener{
-            mRandomTopicFragmentPresenter.switchSpeakingState()
+            mRandomTopicPresenter.switchSpeakingState()
         }
         tv_time_for_speech.text = resources.getString(R.string.time_for_speech, 3)
 

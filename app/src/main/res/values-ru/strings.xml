@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_about">Вам нужно авторизоваться, чтобы использовать приложение. Это займет 2 минуты</string>
+    <string name="speech_time">Время: %1$02d:%2$02d</string>
+    <string name="time_for_speech">Рекомендуемое время рассуждения: %1$d мин</string>
+    <string name="time_for_preparing">Время на подготовку: %1$d сек</string>
+    <string name="nav_twister">Скороговорки</string>
+    <string name="nav_own_text">Собственный текст</string>
+    <string name="nav_random_topic">Рассуждение по теме</string>
+    <string name="nav_main">Главная</string>
+    <string name="auth_with_social_network">Вход через социальные сети:</string>
+    <string name="hint_password">Пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="wrong_pass">Неверный пароль или email</string>
+</resources>

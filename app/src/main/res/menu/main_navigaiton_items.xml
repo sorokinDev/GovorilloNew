@@ -12,9 +12,6 @@
             android:id="@+id/nav_random_topic"
             android:title="@string/nav_random_topic" />
         <item
-            android:id="@+id/nav_own_text"
-            android:title="@string/nav_own_text" />
-        <item
             android:id="@+id/nav_twister"
             android:title="@string/nav_twister" />
 

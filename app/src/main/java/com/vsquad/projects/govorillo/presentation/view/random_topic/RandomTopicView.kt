@@ -6,7 +6,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.vsquad.projects.govorillo.common.SpeakingState
 import com.vsquad.projects.govorillo.model.entity.TopicEntity
 
-interface RandomTopicFragmentView : MvpView {
+interface RandomTopicView : MvpView {
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun setTopic(topic: TopicEntity)
 

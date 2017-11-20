@@ -7,4 +7,5 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 interface AuthView : MvpView {
     @StateStrategyType(SingleStateStrategy::class)
     fun setWrongPassError()
+    fun setErrorWhileRegistration()
 }

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "28397408317",
+    "firebase_url": "https://govorillonew.firebaseio.com",
+    "project_id": "govorillonew",
+    "storage_bucket": "govorillonew.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28397408317:android:ea6ad9b6b1322bd3",
+        "android_client_info": {
+          "package_name": "com.vsquad.projects.govorillo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28397408317-pscuja5rv7ep904f9kqbepsqkcqpnnmh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vsquad.projects.govorillo",
+            "certificate_hash": "9e014c7c8ac9e633d03ce3ac37b79733d489881d"
+          }
+        },
+        {
+          "client_id": "28397408317-l1nt6br52c9n9fdophv4m0rgqh5ue2gg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn0X-am7dPMrj4zB0YaO7P_jnplzExWJ0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28397408317-l1nt6br52c9n9fdophv4m0rgqh5ue2gg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

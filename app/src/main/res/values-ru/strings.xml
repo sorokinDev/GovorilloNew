@@ -13,4 +13,5 @@
     <string name="sign_in">Войти</string>
     <string name="sign_up">Регистрация</string>
     <string name="wrong_pass">Неверный пароль или email</string>
+    <string name="error_while_reg">Ошибка во время регистрации</string>
 </resources>

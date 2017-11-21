@@ -24,7 +24,7 @@ class ProfilePresenter : BaseFragmentPresenter<ProfileView>() {
     fun exitUser(){
         mAuth.signOut()
         SharedPrefUtils.edit().remove(PrefConst.USER_AUTHORIZED).remove(PrefConst.USER_PASS).remove(PrefConst.USER_EMAIL).apply()
-        router.newRootScreen(Screens.MAIN_SCREEN)
+        router.newRootScreen(Screens.FREE_TOPIC_SCREEN)
     }
 
 }

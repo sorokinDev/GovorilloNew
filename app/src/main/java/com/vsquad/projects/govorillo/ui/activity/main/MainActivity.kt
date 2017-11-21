@@ -119,7 +119,7 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
 
         override fun createFragment(screenKey: String?, data: Any?): Fragment {
             val fragment: Fragment = when(screenKey){
-                Screens.MAIN_SCREEN -> FreeTopicFragment.newInstance()
+                Screens.FREE_TOPIC_SCREEN -> FreeTopicFragment.newInstance()
                 Screens.TWISTER_SCREEN -> TwisterFragment.newInstance()
                 Screens.RANDOM_TOPIC_SCREEN -> RandomTopicFragment.newInstance()
                 Screens.TOPIC_RESULT_SCREEN -> TopicResultFragment.newInstance()

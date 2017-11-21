@@ -6,7 +6,7 @@ package com.vsquad.projects.govorillo
 //Screens, that can
 class Screens {
     companion object {
-        val MAIN_SCREEN = "main_screen"
+
         val TWISTER_SCREEN = "twister_screen"
         val RANDOM_TOPIC_SCREEN = "random_topic_screen"
         val FREE_TOPIC_SCREEN = "free_topic_screen"

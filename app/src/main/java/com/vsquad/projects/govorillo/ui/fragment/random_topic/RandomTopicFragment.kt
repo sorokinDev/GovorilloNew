@@ -78,9 +78,6 @@ class RandomTopicFragment : BaseFragment(), RandomTopicView {
         tv_topic.text = topic.text
         tv_time_for_speech.text = resources.getString(R.string.time_for_speech, topic.speechTime/60, topic.speechTime % 60)
 
-        val prepTimeStr = resources.getString(R.string.time_for_preparing)
-        val speechTimeStr = resources.getString(R.string.speech_time)
-
     }
 
 

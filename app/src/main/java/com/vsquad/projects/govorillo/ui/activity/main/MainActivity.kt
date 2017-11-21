@@ -20,6 +20,7 @@ import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.Screens
 import com.vsquad.projects.govorillo.common.PrefConst
 import com.vsquad.projects.govorillo.common.SharedPrefUtils
+import com.vsquad.projects.govorillo.model.analyser.BaseTextAnalyser
 import com.vsquad.projects.govorillo.ui.fragment.auth.AuthFragment
 import com.vsquad.projects.govorillo.ui.fragment.free_topic.FreeTopicFragment
 import com.vsquad.projects.govorillo.ui.fragment.profile.ProfileFragment
@@ -122,7 +123,7 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
                 Screens.FREE_TOPIC_SCREEN -> FreeTopicFragment.newInstance()
                 Screens.TWISTER_SCREEN -> TwisterFragment.newInstance()
                 Screens.RANDOM_TOPIC_SCREEN -> RandomTopicFragment.newInstance()
-                Screens.TOPIC_RESULT_SCREEN -> TopicResultFragment.newInstance()
+                Screens.TOPIC_RESULT_SCREEN -> TopicResultFragment.newInstance(data!! as BaseTextAnalyser.Result)
                 Screens.AUTH_SCREEN -> AuthFragment.newInstance()
                 Screens.PROFILE_SCREEN -> ProfileFragment.newInstance()
                 else -> TwisterFragment.newInstance()

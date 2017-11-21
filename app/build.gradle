@@ -26,9 +26,13 @@ kapt {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
+    implementation 'com.google.firebase:firebase-auth:11.0.4'
+    implementation 'com.google.firebase:firebase-database:11.0.4'
+    compile 'com.google.firebase:firebase-core:11.0.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -52,5 +56,8 @@ dependencies {
     //Yandex speech kit
     compile 'com.yandex.android:speechkit:2.5.0'
 
+    // Facebook Android SDK
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
 }
+apply plugin: 'com.google.gms.google-services'

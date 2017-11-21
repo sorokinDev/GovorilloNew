@@ -26,10 +26,10 @@ class MainActivityPresenter : MvpPresenter<MainActivityView>() {
 
     fun onDrawerMenuClick(@IdRes itemId: Int){
         var scr = when(itemId){
-            R.id.nav_main -> Screens.MAIN_SCREEN
+            R.id.nav_main -> Screens.FREE_TOPIC_SCREEN
             R.id.nav_random_topic -> Screens.RANDOM_TOPIC_SCREEN
             R.id.nav_twister -> Screens.TWISTER_SCREEN
-            else -> Screens.MAIN_SCREEN
+            else -> Screens.FREE_TOPIC_SCREEN
         }
         router.replaceScreen(scr)
     }

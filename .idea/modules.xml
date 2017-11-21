@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Govorillo.iml" filepath="$PROJECT_DIR$/Govorillo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/GovorilloNew.iml" filepath="$PROJECT_DIR$/GovorilloNew.iml" />
+      <module fileurl="file://C:\coding\android\Govorillo\GovorilloNew.iml" filepath="C:\coding\android\Govorillo\GovorilloNew.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

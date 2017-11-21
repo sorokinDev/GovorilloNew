@@ -85,41 +85,36 @@ class AuthFragment : BaseFragment(), AuthView {
         super.onViewCreated(view, savedInstanceState)
 
         btn_sign_in.setOnClickListener {
-            if (et_email.text.toString() != null && et_pass.text.toString() != null && EmailValidator().validate(et_email.text.toString())) {
+            if (EmailValidator().validate(et_email.text.toString())) {
                 mAuthPresenter.trySignIn(et_email.text.toString(), et_pass.text.toString())
             }
         }
         btn_sign_up.setOnClickListener {
-            if (et_email.text.toString() != null && et_pass.text.toString() != null && EmailValidator().validate(et_email.text.toString())) {
+            if (EmailValidator().validate(et_email.text.toString())) {
                 mAuthPresenter.signUp(et_email.text.toString(), et_pass.text.toString())
             }
         }
-        btn_sign_facebook.setOnClickListener {
-            Log.d("FACEBOOK_AUTH", "Facebook Auth Starts")
-            facebookSignInButton = btn_sign_facebook as LoginButton
 
-            callbackManager = CallbackManager.Factory.create();
+        btn_sign_facebook.setReadPermissions("email")
+        btn_sign_facebook.fragment = this
+        callbackManager = CallbackManager.Factory.create()
+        btn_sign_facebook.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                // App code
+                Log.d("FACEBOOK_AUTH", "Success")
+                mAuthPresenter.signInWithFacebook(loginResult.accessToken);
+            }
 
-            facebookSignInButton.setReadPermissions("email");
-            // Callback registration
+            override fun onCancel() {
+                // App code
+                Log.d("FACEBOOK_AUTH", "Cancel")
+            }
 
-            facebookSignInButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-                override fun onSuccess(loginResult: LoginResult) {
-                    // App code
-                    Log.d("FACEBOOK_AUTH", "Success")
-                    mAuthPresenter.signInWithFacebook(loginResult.accessToken);
-                }
-
-                override fun onCancel() {
-                    // App code
-                    Log.d("FACEBOOK_AUTH", "Cancel")
-                }
-                override fun onError(exception: FacebookException) {
-                    // App code
-                    Log.d("FACEBOOK_AUTH", "Error")
-                }
-            })
-        }
+            override fun onError(exception: FacebookException) {
+                // App code
+                Log.d("FACEBOOK_AUTH", "Error")
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

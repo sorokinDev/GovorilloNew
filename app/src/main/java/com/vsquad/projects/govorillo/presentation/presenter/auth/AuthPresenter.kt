@@ -42,6 +42,7 @@ class AuthPresenter : BaseFragmentPresenter<AuthView>() {
                         .putString(PrefConst.USER_EMAIL, email)
                         .putString(PrefConst.USER_PASS, password)
                         .apply()
+                Log.d("PREF_AUTH_PRES", SharedPrefUtils.sPref.getBoolean(PrefConst.USER_AUTHORIZED, false).toString())
                 updateUI(firebaseUser)
             } else {
                 viewState.setWrongPassError()
@@ -74,10 +75,13 @@ class AuthPresenter : BaseFragmentPresenter<AuthView>() {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         var credentials : AuthCredential = FacebookAuthProvider.getCredential(token.getToken());
+
         mAuth.signInWithCredential(credentials).addOnCompleteListener { task: Task<AuthResult> ->
             if (task.isSuccessful) {
                 //Registration OK
-                val firebaseUser = mAuth.currentUser!!
+                val firebaseUser = mAuth.currentUser
+                SharedPrefUtils.edit().putBoolean(PrefConst.USER_AUTHORIZED, true)
+                        .apply()
                 updateUI(firebaseUser)
             } else {
                 viewState.setErrorWhileRegistration()

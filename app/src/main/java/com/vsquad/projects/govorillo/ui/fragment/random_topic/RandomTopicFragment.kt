@@ -25,18 +25,25 @@ import kotlinx.android.synthetic.main.fragment_random_topic.*;
 
 
 class RandomTopicFragment : BaseFragment(), RandomTopicView {
+    override fun setPreparingTime(time: Int) {
+        tv_time_for_preparing.text = String.format(resources.getString(R.string.time_for_preparing), time)
+    }
+
+    override fun setSpeakingTime(speakingTime: Int) {
+        tv_speech_time.text = String.format(resources.getString(R.string.speech_time), speakingTime / 60, speakingTime % 60)
+    }
+
     override var fragmentTitle: String = "Рассуждения"
 
     override fun onPause() {
         super.onPause()
-        tmrPreparing.stop()
-        tmrSpeech.stop()
+
     }
 
     override fun onStart() {
         super.onStart()
         mRandomTopicPresenter.setRandomTopic()
-        tmrPreparing.start()
+
     }
 
     override fun onResume() {
@@ -44,28 +51,24 @@ class RandomTopicFragment : BaseFragment(), RandomTopicView {
         Log.d("Randtop", "onResume")
     }
 
-    lateinit var tmrPreparing: MyTimer
-    lateinit var tmrSpeech: MyTimer
+
 
     override fun setSpeakingState(speakingState: SpeakingState) {
         if(speakingState == SpeakingState.STOPPED){
             ll_while_prep.visibility = View.VISIBLE
             ll_while_speaking.visibility = View.GONE
             btn_next_topic.visibility = View.VISIBLE
-            tmrPreparing.start()
+
         }else if(speakingState == SpeakingState.STARTING) {
             btn_switch_speaking.setText("...Wait...")
-            tmrPreparing.stop()
             ll_while_prep.visibility = View.GONE
             btn_next_topic.visibility = View.GONE
         }else if(speakingState == SpeakingState.STARTED){
             ll_while_speaking.visibility = View.VISIBLE
             btn_switch_speaking.setText("Speak")
-            tmrSpeech.start()
             pulsator.start()
         }else if(speakingState == SpeakingState.FINISHING){
             btn_switch_speaking.setText("...Analyzing...")
-            tmrSpeech.stop()
             pulsator.stop()
         }
 
@@ -73,7 +76,14 @@ class RandomTopicFragment : BaseFragment(), RandomTopicView {
 
     override fun setTopic(topic: TopicEntity) {
         tv_topic.text = topic.text
+        tv_time_for_speech.text = resources.getString(R.string.time_for_speech, topic.speechTime/60, topic.speechTime % 60)
+
+        val prepTimeStr = resources.getString(R.string.time_for_preparing)
+        val speechTimeStr = resources.getString(R.string.speech_time)
+
     }
+
+
 
     companion object {
         const val TAG = "RandomTopicFragment"
@@ -109,16 +119,6 @@ class RandomTopicFragment : BaseFragment(), RandomTopicView {
         }
         btn_switch_speaking.setOnClickListener{
             mRandomTopicPresenter.switchSpeakingState()
-        }
-        tv_time_for_speech.text = resources.getString(R.string.time_for_speech, 3)
-
-        val prepTimeStr = resources.getString(R.string.time_for_preparing)
-        val speechTimeStr = resources.getString(R.string.speech_time)
-        tmrPreparing = MyTimer(-1, 0, 90){
-            tv_time_for_preparing.text = String.format(prepTimeStr, it)
-        }
-        tmrSpeech = MyTimer(1, 0, Int.MAX_VALUE){
-            tv_speech_time.text = String.format(speechTimeStr, it/60, it)
         }
     }
 }

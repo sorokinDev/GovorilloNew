@@ -8,7 +8,7 @@
     <string name="nav_twister">Tongue twister</string>
 
     <string name="time_for_preparing">Time for preparing: %1$d sec</string>
-    <string name="time_for_speech">Time for speech: %1$d min</string>
+    <string name="time_for_speech">Time for speech: %1$02d:%2$02d</string>
     <string name="speech_time">Time: %1$02d:%2$02d</string>
     <string name="auth_about">You need to sign in to use app</string>
     <string name="auth_with_social_network">You can sign in with Social network:</string>

@@ -39,7 +39,7 @@ interface AppComponent {
     fun inject(presenter: TwisterPresenter)
     fun inject(presenter: RandomTopicPresenter)
     fun inject(presenter: TopicResultPresenter)
-    fun inject(fragment: FreeTopicPresenter)
-    fun inject(fragment: ProfilePresenter)
-    fun inject(fragment: AuthPresenter)
+    fun inject(presenter: FreeTopicPresenter)
+    fun inject(presenter: ProfilePresenter)
+    fun inject(presenter: AuthPresenter)
 }

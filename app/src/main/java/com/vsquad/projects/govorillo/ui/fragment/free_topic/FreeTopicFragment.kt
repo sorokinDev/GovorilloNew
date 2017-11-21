@@ -18,7 +18,11 @@ import kotlinx.android.synthetic.main.fragment_free_topic.*
 
 
 class FreeTopicFragment : BaseFragment(), FreeTopicView {
-    lateinit var tmrSpeech: MyTimer
+    override fun setSpeakingTime(speakingTime: Int) {
+        tv_speech_time.text = String.format(resources.getString(R.string.speech_time), speakingTime / 60, speakingTime % 60)
+    }
+
+
     override fun setSpeakingState(speakingState: SpeakingState) {
         if(speakingState == SpeakingState.STOPPED){
             ll_while_speaking.visibility = View.GONE
@@ -27,12 +31,13 @@ class FreeTopicFragment : BaseFragment(), FreeTopicView {
         }else if(speakingState == SpeakingState.STARTED){
             ll_while_speaking.visibility = View.VISIBLE
             btn_switch_speaking.setText("Speak")
-            tmrSpeech.start()
+
             pulsator.start()
         }else if(speakingState == SpeakingState.FINISHING){
             btn_switch_speaking.setText("...Analyzing...")
-            tmrSpeech.stop()
+
             pulsator.stop()
+
         }
     }
 
@@ -64,12 +69,10 @@ class FreeTopicFragment : BaseFragment(), FreeTopicView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val speechTimeStr = resources.getString(R.string.speech_time)
+
         btn_switch_speaking.setOnClickListener{
             mFreeTopicPresenter.switchSpeakingState()
         }
-        tmrSpeech = MyTimer(1, 0, Int.MAX_VALUE){
-            tv_speech_time.text = String.format(speechTimeStr, it/60, it)
-        }
+
     }
 }

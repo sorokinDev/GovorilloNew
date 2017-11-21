@@ -51,5 +51,6 @@ class AuthFragment : BaseFragment(), AuthView {
         btn_sign_in.setOnClickListener {
             mAuthPresenter.trySignIn(et_email.text.toString(), et_pass.text.toString())
         }
+        
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <string name="auth_about">Вам нужно авторизоваться, чтобы использовать приложение. Это займет 2 минуты</string>
     <string name="speech_time">Время: %1$02d:%2$02d</string>
-    <string name="time_for_speech">Рекомендуемое время рассуждения: %1$d мин</string>
+    <string name="time_for_speech">Рекомендуемое время рассуждения: %1$02d:%2$02d мин</string>
     <string name="time_for_preparing">Время на подготовку: %1$d сек</string>
     <string name="nav_twister">Скороговорки</string>
     <string name="nav_own_text">Собственный текст</string>

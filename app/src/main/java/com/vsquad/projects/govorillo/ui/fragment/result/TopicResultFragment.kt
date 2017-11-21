@@ -11,19 +11,25 @@ import com.vsquad.projects.govorillo.presentation.presenter.result.TopicResultPr
 
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.vsquad.projects.govorillo.GovorilloApplication
+import com.vsquad.projects.govorillo.model.analyser.BaseTextAnalyser
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_topic_result.*
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 class TopicResultFragment : BaseFragment(), TopicResultView {
+
     override var fragmentTitle: String = "Результат"
+    lateinit var stringRes: String
 
     companion object {
         const val TAG = "TopicResultFragment"
 
-        fun newInstance(): TopicResultFragment {
+        fun newInstance(res : BaseTextAnalyser.Result): TopicResultFragment {
             val fragment: TopicResultFragment = TopicResultFragment()
+
             val args: Bundle = Bundle()
+            args.putString("RESULT", res.toString())
             fragment.arguments = args
             return fragment
         }
@@ -37,6 +43,10 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
     override fun onCreate(savedInstanceState: Bundle?) {
         GovorilloApplication.INSTANCE.getAppComponent().inject(this)
         super.onCreate(savedInstanceState)
+        if(arguments != null){
+            stringRes = arguments.getString("RESULT")
+        }
+
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -45,6 +55,6 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        tv_tmp_res.text = stringRes
     }
 }

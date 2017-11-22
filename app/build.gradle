@@ -56,8 +56,11 @@ dependencies {
     //Yandex speech kit
     compile 'com.yandex.android:speechkit:2.5.0'
 
-    // Facebook Android SDK
+    //Facebook Android SDK
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    //Input Dialogs
+    compile 'org.jetbrains.anko:anko-sdk15:0.8.3'
 
 }
 apply plugin: 'com.google.gms.google-services'

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.vsquad.projects.govorillo.ui.fragment.auth.AuthFragment">
     <LinearLayout
@@ -20,33 +21,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:text="@string/auth_with_social_network" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_below="@+id/ll_hints"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="24dp">
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/btn_sign_facebook"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp"
-            android:padding="0dp"
-            android:scaleType="fitCenter"/>
-        <ImageButton
-            android:id="@+id/btn_sign_vk"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/btn_vk"
-            android:scaleType="fitCenter"
-            android:padding="0dp"
-            android:background="#00000000"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp" />
     </LinearLayout>
     <LinearLayout
         android:layout_centerInParent="true"
@@ -81,23 +55,70 @@
                 android:imeOptions="actionDone"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
-        <Button
-            android:id="@+id/btn_sign_in"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/sign_in"/>
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_sign_up"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:text="Зарегистрироваться"
+                app:fb_defaultColor="#3f729b"
+                app:fb_focusColor="#313131"
+                app:fb_iconPaddingLeft="0dp"
+                app:fb_iconPaddingRight="0dp"
+                app:fb_radius="200dp"
+                android:layout_marginBottom="10dp"/>
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_sign_in"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:text="Войти"
+                app:fb_defaultColor="#3f729b"
+                app:fb_focusColor="#313131"
+                app:fb_iconPaddingLeft="0dp"
+                app:fb_iconPaddingRight="0dp"
+                app:fb_radius="200dp"
+                android:layout_marginBottom="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_sign_facebook"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:text="Войти через Facebook"
+                app:fb_defaultColor="#3b5998"
+                app:fb_focusColor="#5474b8"
+                app:fb_radius="200dp" />
+
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-        <Button
-            android:id="@+id/btn_sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/sign_up"/>
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="8dp">
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/user"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Пользовательское соглашение"
+            app:fb_defaultColor="#3f729b"
+            app:fb_focusColor="#313131"
+            app:fb_iconPaddingLeft="0dp"
+            app:fb_iconPaddingRight="0dp" />
     </LinearLayout>
 </RelativeLayout>

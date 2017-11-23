@@ -123,20 +123,20 @@ class AuthFragment : BaseFragment(), AuthView {
                     }
             )
 
-            activity.alert {
-                customView {
-                    verticalLayout {
-                        title("Подтверждение номера")
-                        val task = editText {
-                            hint = "Код из смс сообщения "
-                            padding = dip(20)
-                        }
-                        positiveButton("Подтвердить") {
-                            task.text.toString()        // OnVerificationStateChangedCallbacks
-                        }
-                    }
-                }
-            }.show()
+//            activity.alert {
+//                customView {
+//                    verticalLayout {
+//                        title("Подтверждение номера")
+//                        val task = editText {
+//                            hint = "Код из смс сообщения "
+//                            padding = dip(20)
+//                        }
+//                        positiveButton("Подтвердить") {
+//                            task.text.toString()        // OnVerificationStateChangedCallbacks
+//                        }
+//                    }
+//                }
+//            }.show()
 
 //            if (EmailValidator().validate(et_email.text.toString())) {
 //                mAuthPresenter.trySignIn(et_email.text.toString(), et_pass.text.toString())

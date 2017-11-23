@@ -13,7 +13,8 @@
     <string name="auth_about">You need to sign in to use app</string>
     <string name="auth_with_social_network">You can sign in with Social network:</string>
 
-    <string name="hint_email" translatable="false">Email</string>
+    <string name="hint_email">E-mail</string>
+    <string name="hint_tel">Phone number</string>
     <string name="hint_password">Password</string>
 
     <string name="sign_in">Sign in</string>
@@ -21,10 +22,6 @@
 
     <string name="wrong_pass">Wrong password</string>
     <string name="error_while_reg">Error while registration</string>
-
-    <string name="percent_template">%1$d %%</string>
-    <string name="preparing_time_diff_template">Время подготовки %1$s</string>
-    <string name="speech_time_diff_template">Время выступления %1$s</string>
 
     <string name="facebook_app_id">196084370958937</string>
     <string name="fb_login_protocol_scheme">7f11009ecf1126baa9d4e71df37e9efa</string>

@@ -3,4 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="disabledButtonAuth">#93B3C9</color>
+    <color name="enabledButtonAuth">#3f729b</color>
 </resources>

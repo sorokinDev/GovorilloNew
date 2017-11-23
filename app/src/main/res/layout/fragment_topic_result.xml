@@ -39,8 +39,12 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     app:sv_minSpeed="20"
-                    app:sv_maxSpeed="180"
+                    app:sv_maxSpeed="200"
                     app:sv_withTremble="false"/>
+                <TextView
+                    android:id="@+id/tv_speed_advice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
@@ -132,6 +136,7 @@
                         android:layout_height="wrap_content"
                         style="@style/TextAppearance.AppCompat.Medium"
                         android:textAlignment="center"
+                        android:id="@+id/tv_prep_time_diff"
                         tools:text="Время подготовки превышено на 15 сек"
                         />
                     <TextView
@@ -139,6 +144,7 @@
                         android:layout_height="wrap_content"
                         style="@style/TextAppearance.AppCompat.Medium"
                         android:textAlignment="center"
+                        android:id="@+id/tv_speech_time_diff"
                         tools:text="Время выступления на 30 сек меньше желаемого"
                         />
                 </LinearLayout>

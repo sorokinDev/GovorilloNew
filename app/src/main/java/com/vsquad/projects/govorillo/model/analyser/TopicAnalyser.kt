@@ -14,6 +14,7 @@ open class TextAnalysisResult() : Parcelable{
     var waterness: Double = 0.0
     var speechTimeDiff = 0.0
     var preparingTimeDiff = 0.0
+    var isRandomTopic = false
 
     constructor(parcel: Parcel) : this() {
         text = parcel.readString()
@@ -22,7 +23,9 @@ open class TextAnalysisResult() : Parcelable{
         waterness = parcel.readDouble()
         speechTimeDiff = parcel.readDouble()
         preparingTimeDiff = parcel.readDouble()
+        isRandomTopic = parcel.readByte() != 0.toByte()
     }
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(text)
         parcel.writeInt(speed)
@@ -30,6 +33,7 @@ open class TextAnalysisResult() : Parcelable{
         parcel.writeDouble(waterness)
         parcel.writeDouble(speechTimeDiff)
         parcel.writeDouble(preparingTimeDiff)
+        parcel.writeByte(if (isRandomTopic) 1 else 0)
     }
 
     override fun describeContents(): Int {
@@ -45,6 +49,7 @@ open class TextAnalysisResult() : Parcelable{
             return arrayOfNulls(size)
         }
     }
+
 }
 open class BaseTextAnalyser {
 
@@ -77,6 +82,7 @@ open class BaseTextAnalyser {
             res.SMOG_index = getSMOGIndex(txt, txtNoSigns)
             res.waterness = getWaterness(txt, txtNoSigns)
             if(prepTime != null && topic != null){
+                res.isRandomTopic = true
                 res.speechTimeDiff = (timeOfSpeech - topic.speechTime).toDouble() / topic.speechTime
                 res.preparingTimeDiff = (prepTime - topic.preparingTime).toDouble() / topic.preparingTime
             }

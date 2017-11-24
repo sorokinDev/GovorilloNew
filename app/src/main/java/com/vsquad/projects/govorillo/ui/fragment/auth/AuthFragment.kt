@@ -49,8 +49,6 @@ class AuthFragment : BaseFragment(), AuthView {
         GovorilloApplication.INSTANCE.getAppComponent().inject(this)
         super.onCreate(savedInstanceState)
         mAuth = FirebaseAuth.getInstance()
-        //FacebookSdk.sdkInitialize(getApplicationContext())
-        //AppEventsLogger.activateApp(this@AuthFragment)
     }
 
     override var fragmentTitle: String = "Авторизация"
@@ -77,7 +75,11 @@ class AuthFragment : BaseFragment(), AuthView {
     override fun onStart() {
         super.onStart()
         // TODO: Настроить обновление UI при старте
-        //mAuthPresenter.updateUI(mAuth.currentUser)
+        /*
+        if(mAuth.currentUser != null) {
+            mAuthPresenter.updateUI(mAuth.currentUser)
+        }
+        */
     }
 
     @InjectPresenter
@@ -95,57 +97,112 @@ class AuthFragment : BaseFragment(), AuthView {
         super.onViewCreated(view, savedInstanceState)
 
         btn_sign_in.setOnClickListener {
-            Log.d("PhoneVer", "Start")
-            PhoneAuthProvider.getInstance(mAuth).verifyPhoneNumber(
-                    et_email.text.toString(),        // Phone number to verify
-                    60,                 // Timeout duration
-                    TimeUnit.SECONDS,   // Unit of timeout
-                    this@AuthFragment.activity,               // Activity (for callback binding)
-                    object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            if (which_method_tel.isEnabled == true && et_email.text.toString() != "" && et_email.text.length >= 10) {
+                var phoneNumber : String = TelNumberValidator().validate(et_email.text.toString())
+                Log.d("PhoneVer", "Start")
+                PhoneAuthProvider.getInstance(mAuth).verifyPhoneNumber(
+                        phoneNumber,        // Phone number to verify
+                        60,                 // Timeout duration
+                        TimeUnit.SECONDS,   // Unit of timeout
+                        this@AuthFragment.activity,               // Activity (for callback binding)
+                        object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
-                        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                            Log.d(TAG, "onVerificationCompleted:" + credential);
-                            mAuthPresenter.signInWithPhoneAuthCredential(credential);
+                            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                                Log.d(TAG, "onVerificationCompleted:" + credential);
+                                mAuthPresenter.signInWithPhoneAuthCredential(credential);
+                            }
+
+
+                            override fun onVerificationFailed(e: FirebaseException) {
+                                Log.w(TAG, "onVerificationFailed", e);
+                                println("Something went wrong")
+                            }
+
+
+                            override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+                                Log.d(TAG, "onCodeSent:" + verificationId);
+                                mVerificationId = verificationId;
+                                mResendToken = token;
+                            }
                         }
+                )
 
 
-                        override fun onVerificationFailed(e: FirebaseException) {
-                            Log.w(TAG, "onVerificationFailed", e);
-                            println("Something went wrong")
-                        }
-
-
-                        override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
-                            Log.d(TAG, "onCodeSent:" + verificationId);
-                            mVerificationId = verificationId;
-                            mResendToken = token;
+                activity.alert {
+                    customView {
+                        verticalLayout {
+                            title("Подтверждение номера")
+                            val task = editText {
+                                hint = "Код из смс сообщения "
+                                padding = dip(20)
+                            }
+                            positiveButton("Подтвердить") {
+                                task.text.toString()        // OnVerificationStateChangedCallbacks
+                                var credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(mVerificationId, task.text.toString())
+                                mAuthPresenter.signInWithPhoneAuthCredential(credential);
+                            }
                         }
                     }
-            )
-
-//            activity.alert {
-//                customView {
-//                    verticalLayout {
-//                        title("Подтверждение номера")
-//                        val task = editText {
-//                            hint = "Код из смс сообщения "
-//                            padding = dip(20)
-//                        }
-//                        positiveButton("Подтвердить") {
-//                            task.text.toString()        // OnVerificationStateChangedCallbacks
-//                        }
-//                    }
-//                }
-//            }.show()
-
-//            if (EmailValidator().validate(et_email.text.toString())) {
-//                mAuthPresenter.trySignIn(et_email.text.toString(), et_pass.text.toString())
-//            }
+                }.show()
+            } else if (which_method_email.isEnabled == true){
+                if (EmailValidator().validate(et_email.text.toString())) {
+                    mAuthPresenter.trySignIn(et_email.text.toString(), et_pass.text.toString())
+                }
+            }
         }
 
         btn_sign_up.setOnClickListener {
-            if (EmailValidator().validate(et_email.text.toString())) {
-                mAuthPresenter.signUp(et_email.text.toString(), et_pass.text.toString())
+            if (which_method_tel.isEnabled == true) {
+                var phoneNumber : String = TelNumberValidator().validate(et_email.text.toString())
+                Log.d("PhoneVer", "Start")
+                PhoneAuthProvider.getInstance(mAuth).verifyPhoneNumber(
+                        phoneNumber,        // Phone number to verify
+                        60,                 // Timeout duration
+                        TimeUnit.SECONDS,   // Unit of timeout
+                        this@AuthFragment.activity,               // Activity (for callback binding)
+                        object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                                Log.d(TAG, "onVerificationCompleted:" + credential);
+                                mAuthPresenter.signInWithPhoneAuthCredential(credential);
+                            }
+
+
+                            override fun onVerificationFailed(e: FirebaseException) {
+                                Log.w(TAG, "onVerificationFailed", e);
+                                println("Something went wrong")
+                            }
+
+
+                            override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+                                Log.d(TAG, "onCodeSent:" + verificationId);
+                                mVerificationId = verificationId;
+                                mResendToken = token;
+                            }
+                        }
+                )
+
+
+                activity.alert {
+                    customView {
+                        verticalLayout {
+                            title("Подтверждение номера")
+                            val task = editText {
+                                hint = "Код из смс сообщения "
+                                padding = dip(20)
+                            }
+                            positiveButton("Подтвердить") {
+                                task.text.toString()        // OnVerificationStateChangedCallbacks
+                                var credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(mVerificationId, task.text.toString())
+                                mAuthPresenter.signInWithPhoneAuthCredential(credential);
+                            }
+                        }
+                    }
+                }.show()
+            } else if (which_method_email.isEnabled == true){
+                if (EmailValidator().validate(et_email.text.toString())) {
+                    mAuthPresenter.signUp(et_email.text.toString(), et_pass.text.toString())
+                }
             }
         }
 

@@ -3,11 +3,13 @@ package com.vsquad.projects.govorillo.ui.activity.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -135,8 +137,11 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
             finish()
         }
 
-        override fun showSystemMessage(message: String?) {
-            Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+        override fun showSystemMessage(message: String) {
+            //Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+
+            var s : CharSequence = message
+            Snackbar.make(frame_content, s, Snackbar.LENGTH_LONG).show()
         }
 
     }

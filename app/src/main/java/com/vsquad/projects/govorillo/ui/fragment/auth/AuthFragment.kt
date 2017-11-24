@@ -34,6 +34,8 @@ import java.util.concurrent.TimeUnit
 import com.google.firebase.auth.PhoneAuthProvider
 import mehdi.sakout.fancybuttons.FancyButton
 import org.intellij.lang.annotations.JdkConstants
+import com.mixpanel.android.mpmetrics.MixpanelAPI
+import com.vsquad.projects.govorillo.ui.activity.main.MainActivity
 
 
 class AuthFragment : BaseFragment(), AuthView {
@@ -44,6 +46,7 @@ class AuthFragment : BaseFragment(), AuthView {
     private lateinit var mResendToken : PhoneAuthProvider.ForceResendingToken
     lateinit var mVerificationId : String
     private lateinit var mCallbacks : PhoneAuthProvider.OnVerificationStateChangedCallbacks
+    lateinit var mixpanel : MixpanelAPI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         GovorilloApplication.INSTANCE.getAppComponent().inject(this)
@@ -51,7 +54,7 @@ class AuthFragment : BaseFragment(), AuthView {
         mAuth = FirebaseAuth.getInstance()
     }
 
-    override var fragmentTitle: String = "Авторизация"
+    override var fragmentTitle: String = "Войти в аккаунт"
 
     override fun setWrongPassError() {
         textInput_pass.error = resources.getString(R.string.wrong_pass)
@@ -87,8 +90,10 @@ class AuthFragment : BaseFragment(), AuthView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(getApplicationContext());
+        FacebookSdk.sdkInitialize(getApplicationContext())
+        AppEventsLogger.activateApp(getApplicationContext())
+        mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
+        mixpanel.track("[AuthPresenter]")
         return inflater.inflate(R.layout.fragment_auth, container, false)
 
     }
@@ -97,7 +102,10 @@ class AuthFragment : BaseFragment(), AuthView {
         super.onViewCreated(view, savedInstanceState)
 
         btn_sign_in.setOnClickListener {
-            if (which_method_tel.isEnabled == true && et_email.text.toString() != "" && et_email.text.length >= 10) {
+            mixpanel.identify(et_email.text.toString())
+            mixpanel.people.set("email or phone",et_email.text.toString())
+            mixpanel.track("[AuthPresenter] -> Trying to sign in with email/phone number")
+            if (et_pass.isEnabled == false && et_email.text.toString() != "" && et_email.text.length >= 10) {
                 var phoneNumber : String = TelNumberValidator().validate(et_email.text.toString())
                 Log.d("PhoneVer", "Start")
                 PhoneAuthProvider.getInstance(mAuth).verifyPhoneNumber(
@@ -144,7 +152,7 @@ class AuthFragment : BaseFragment(), AuthView {
                         }
                     }
                 }.show()
-            } else if (which_method_email.isEnabled == true){
+            } else if (et_pass.isEnabled == true){
                 if (EmailValidator().validate(et_email.text.toString())) {
                     mAuthPresenter.trySignIn(et_email.text.toString(), et_pass.text.toString())
                 }
@@ -152,7 +160,10 @@ class AuthFragment : BaseFragment(), AuthView {
         }
 
         btn_sign_up.setOnClickListener {
-            if (which_method_tel.isEnabled == true) {
+            mixpanel.identify(et_email.text.toString())
+            mixpanel.people.set("email or phone",et_email.text.toString())
+            mixpanel.track("[AuthPresenter] -> Trying to sign up with email/phone number")
+            if (et_pass.isEnabled == false) {
                 var phoneNumber : String = TelNumberValidator().validate(et_email.text.toString())
                 Log.d("PhoneVer", "Start")
                 PhoneAuthProvider.getInstance(mAuth).verifyPhoneNumber(
@@ -199,7 +210,7 @@ class AuthFragment : BaseFragment(), AuthView {
                         }
                     }
                 }.show()
-            } else if (which_method_email.isEnabled == true){
+            } else if (et_pass.isEnabled == true){
                 if (EmailValidator().validate(et_email.text.toString())) {
                     mAuthPresenter.signUp(et_email.text.toString(), et_pass.text.toString())
                 }
@@ -207,6 +218,7 @@ class AuthFragment : BaseFragment(), AuthView {
         }
 
         btn_sign_facebook.setOnClickListener {
+            mixpanel.track("[AuthPresenter] -> Trying to sign in with facebook")
             callbackManager = CallbackManager.Factory.create()
             LoginManager
                     .getInstance()
@@ -218,6 +230,8 @@ class AuthFragment : BaseFragment(), AuthView {
                 override fun onSuccess(loginResult: LoginResult) {
                     // App code
                     Log.d("FACEBOOK_AUTH", "Success")
+                    mixpanel.identify(loginResult.accessToken.userId)
+                    mixpanel.people.set("facebook user id",loginResult.accessToken.userId)
                     mAuthPresenter.signInWithFacebook(loginResult.accessToken);
                 }
 

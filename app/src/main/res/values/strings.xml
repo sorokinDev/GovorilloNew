@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Govorillo</string>
+    <string name="app_name" translatable="false">Говорилло</string>
     <string name="open_drawer" translatable="false">Open drawer</string>
     <string name="close_drawer" translatable="false">Close drawer</string>
     <string name="nav_main">Main</string>
@@ -25,5 +25,5 @@
 
     <string name="facebook_app_id">196084370958937</string>
     <string name="fb_login_protocol_scheme">7f11009ecf1126baa9d4e71df37e9efa</string>
-
+    <string name="mixpanel_token">5c3fe12980d9a7c1736f393e360b84b6</string>
 </resources>

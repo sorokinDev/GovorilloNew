@@ -10,6 +10,8 @@ import com.vsquad.projects.govorillo.presentation.presenter.twister.TwisterPrese
 
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.facebook.FacebookSdk
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
 import ru.terrakok.cicerone.Router
@@ -17,6 +19,7 @@ import javax.inject.Inject
 
 class TwisterFragment : BaseFragment(), TwisterView {
     override var fragmentTitle: String = "Скороговорки"
+    lateinit var mixpanel : MixpanelAPI
 
     companion object {
         const val TAG = "TwisterFragment"
@@ -41,6 +44,8 @@ class TwisterFragment : BaseFragment(), TwisterView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
+        mixpanel.track("[Twisters]")
         return inflater.inflate(R.layout.fragment_twister, container, false)
     }
 

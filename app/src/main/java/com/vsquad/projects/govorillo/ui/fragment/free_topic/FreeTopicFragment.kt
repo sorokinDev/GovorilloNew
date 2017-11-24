@@ -10,6 +10,8 @@ import com.vsquad.projects.govorillo.presentation.presenter.free_topic.FreeTopic
 
 
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.facebook.FacebookSdk
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.common.MyTimer
 import com.vsquad.projects.govorillo.common.SpeakingState
@@ -18,6 +20,8 @@ import kotlinx.android.synthetic.main.fragment_free_topic.*
 
 
 class FreeTopicFragment : BaseFragment(), FreeTopicView {
+    lateinit var mixpanel : MixpanelAPI
+
     override fun setSpeakingTime(speakingTime: Int) {
         tv_speech_time.text = String.format(resources.getString(R.string.speech_time), speakingTime / 60, speakingTime % 60)
     }
@@ -28,10 +32,10 @@ class FreeTopicFragment : BaseFragment(), FreeTopicView {
             ll_while_speaking.visibility = View.GONE
         }else if(speakingState == SpeakingState.STARTING) {
             btn_switch_speaking.setText("...Wait...")
+            mixpanel.track("[FreeTopic] -> Start talking")
         }else if(speakingState == SpeakingState.STARTED){
             ll_while_speaking.visibility = View.VISIBLE
             btn_switch_speaking.setText("Speak")
-
             pulsator.start()
         }else if(speakingState == SpeakingState.FINISHING){
             btn_switch_speaking.setText("...Analyzing...")
@@ -64,6 +68,8 @@ class FreeTopicFragment : BaseFragment(), FreeTopicView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
+        mixpanel.track("[FreeTopic]")
         return inflater.inflate(R.layout.fragment_free_topic, container, false)
     }
 

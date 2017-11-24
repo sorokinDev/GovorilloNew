@@ -10,6 +10,7 @@ import com.vsquad.projects.govorillo.presentation.view.result.TopicResultView
 import com.vsquad.projects.govorillo.presentation.presenter.result.TopicResultPresenter
 
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.model.analyser.BaseTextAnalyser
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
@@ -21,6 +22,7 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
 
     override var fragmentTitle: String = "Результат"
     lateinit var stringRes: String
+    lateinit var mixpanel : MixpanelAPI
 
     companion object {
         const val TAG = "TopicResultFragment"
@@ -50,6 +52,7 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
         return inflater.inflate(R.layout.fragment_topic_result, container, false)
     }
 

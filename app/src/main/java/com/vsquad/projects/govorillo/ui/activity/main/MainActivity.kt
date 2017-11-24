@@ -156,4 +156,8 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
     }
     //endregion
 
+    fun getMixpanelToken(): String {
+        return "5c3fe12980d9a7c1736f393e360b84b6"
+    }
+
 }

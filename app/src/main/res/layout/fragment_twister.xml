@@ -2,6 +2,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.vsquad.projects.govorillo.ui.fragment.twister.TwisterFragment">
+    <RelativeLayout
+        android:id="@+id/rl_on_start_only"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Когда вы нажмете на кнопку - вы увидете скороговорку. Запись начнется через 7 секунд. Потом вы сможете перейти к следующей скороговорке или посмотреть анализ."/>
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_start_twistering"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="100dp"
+            android:text="start"
+            app:fb_fontIconSize="100sp"
+            app:fb_defaultColor="#3f729b"
+            app:fb_focusColor="#313131"
+            app:fb_iconPosition="top"
+            app:fb_fontIconResource="&#xf130;"
+            app:fb_radius="180dp"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_on_twistering_only"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <TextView
+                android:id="@+id/tv_twister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:text="Это какая-то очень большая тема... Интересно, она будет нормально отображаться? Надеюсь да"/>
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true">
+            <TextView
+                android:id="@+id/tv_status"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Подготовка: 5 сек"
+                />
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_next_twister"
+                android:layout_width="180dp"
+                android:layout_height="64dp"
+                android:layout_marginBottom="16dp"
+                android:text="Следующая скороговорка"
+                android:layout_gravity="center_horizontal"
+                app:fb_defaultColor="#3f729b"
+                app:fb_focusColor="#313131"
+                app:fb_iconPaddingLeft="0dp"
+                app:fb_iconPaddingRight="0dp"
+                app:fb_radius="200dp"/>
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_finish"
+                android:layout_width="180dp"
+                android:layout_height="64dp"
+                android:layout_marginBottom="16dp"
+                android:text="Закончить"
+                android:layout_gravity="center_horizontal"
+                app:fb_defaultColor="#3f729b"
+                app:fb_focusColor="#313131"
+                app:fb_iconPaddingLeft="0dp"
+                app:fb_iconPaddingRight="0dp"
+                app:fb_radius="200dp"/>
+        </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>

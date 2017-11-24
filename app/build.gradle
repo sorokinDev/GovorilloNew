@@ -30,9 +30,9 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
-    implementation 'com.google.firebase:firebase-auth:11.6.0'
-    implementation 'com.google.firebase:firebase-database:11.6.0'
-    compile 'com.google.firebase:firebase-core:11.6.0'
+    implementation 'com.google.firebase:firebase-auth:11.0.4'
+    implementation 'com.google.firebase:firebase-database:11.0.4'
+    compile 'com.google.firebase:firebase-core:11.0.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -54,12 +54,16 @@ dependencies {
     compile 'pl.bclogic:pulsator4droid:1.0.3'
     compile 'com.github.anastr:speedviewlib:1.1.6'
 
-
     //Yandex speech kit
     compile 'com.yandex.android:speechkit:2.5.0'
 
-    // Facebook Android SDK
-    compile 'com.facebook.android:facebook-android-sdk:4.28.0'
+    //Facebook Android SDK
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
+    //Input Dialogs
+    compile 'org.jetbrains.anko:anko-sdk15:0.8.3'
+
+    //CSV
+    compile 'com.opencsv:opencsv:4.1'
 }
 apply plugin: 'com.google.gms.google-services'

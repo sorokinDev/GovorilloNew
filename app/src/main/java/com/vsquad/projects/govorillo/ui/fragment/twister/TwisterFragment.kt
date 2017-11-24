@@ -11,11 +11,33 @@ import com.vsquad.projects.govorillo.presentation.presenter.twister.TwisterPrese
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.vsquad.projects.govorillo.GovorilloApplication
+import com.vsquad.projects.govorillo.model.entity.TwisterEntity
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_twister.*
+import org.jetbrains.anko.onClick
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 class TwisterFragment : BaseFragment(), TwisterView {
+    override fun setStatusText(txt: String){
+        tv_status.text = txt
+    }
+
+    override fun setNewTwister(twister: TwisterEntity) {
+        tv_twister.text = twister.text
+    }
+
+    override fun setMode(mode: Int) {
+        if(mode == TwisterView.MODE_PREPARING){
+            rl_on_start_only.visibility = View.VISIBLE
+            rl_on_twistering_only.visibility = View.GONE
+        }else if(mode == TwisterView.MODE_TWISTERING){
+            rl_on_start_only.visibility = View.GONE
+            rl_on_twistering_only.visibility = View.VISIBLE
+        }
+
+    }
+
     override var fragmentTitle: String = "Скороговорки"
 
     companion object {
@@ -46,6 +68,13 @@ class TwisterFragment : BaseFragment(), TwisterView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        btn_start_twistering.onClick {
+            mTwisterPresenter.changeMode(TwisterView.MODE_TWISTERING)
+        }
+
+        btn_next_twister.onClick {
+            mTwisterPresenter.nextTwister()
+        }
 
     }
 }

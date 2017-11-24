@@ -100,7 +100,7 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
     private fun navigationItemSelected(item: MenuItem): Boolean {
         mMainActivityPresenter.onDrawerMenuClick(item.itemId)
         nav_view.setCheckedItem(item.itemId)
-        drawer_layout.closeDrawer(Gravity.START);
+        drawer_layout.closeDrawer(Gravity.START)
         return true
     }
 

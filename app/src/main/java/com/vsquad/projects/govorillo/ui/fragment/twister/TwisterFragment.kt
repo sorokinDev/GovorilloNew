@@ -75,6 +75,9 @@ class TwisterFragment : BaseFragment(), TwisterView {
         btn_next_twister.onClick {
             mTwisterPresenter.nextTwister()
         }
+        btn_finish.onClick {
+            mTwisterPresenter.finishTwistering()
+        }
 
     }
 }

@@ -75,7 +75,7 @@ open class BaseTextAnalyser {
 
         fun analyse(txt: String, timeOfSpeech: Int, prepTime: Int? = null, topic: TopicEntity? = null): TextAnalysisResult {
             val res: TextAnalysisResult = TextAnalysisResult()
-            val txtNoSigns = txt.replace("[^A-Za-z0-9\\s]", "")
+            val txtNoSigns = txt.replace("[^A-Za-zА-Яа-я0-9\\s]".toRegex(), "")
 
             res.text = txt
             res.speed = (txtNoSigns.split(" ").count()*60.0/timeOfSpeech).toInt()

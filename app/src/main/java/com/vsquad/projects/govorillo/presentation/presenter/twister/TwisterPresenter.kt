@@ -1,9 +1,12 @@
 package com.vsquad.projects.govorillo.presentation.presenter.twister
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.common.MyTimer
+import com.vsquad.projects.govorillo.model.analyser.TwisterAnalyser
+import com.vsquad.projects.govorillo.model.analyser.TwisterSpeechResult
 import com.vsquad.projects.govorillo.model.entity.TwisterEntity
 import com.vsquad.projects.govorillo.model.repository.TopicRepository
 import com.vsquad.projects.govorillo.model.repository.TwisterRepository
@@ -14,6 +17,9 @@ import ru.yandex.speechkit.Recognition
 import ru.yandex.speechkit.Recognizer
 import ru.yandex.speechkit.RecognizerListener
 import ru.yandex.speechkit.SpeechKit
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 @InjectViewState
@@ -24,6 +30,8 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
 
     var recognizers: ArrayList<Recognizer> = ArrayList()
     var preparingTimer : MyTimer? = null
+
+    var results = ArrayList<TwisterSpeechResult>()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -46,7 +54,7 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
     }
 
     private fun setNewTwister() {
-        var twister = repository.getRandomTwiser(TwisterEntity.LEVEL_NORMAL)
+        val twister = repository.getRandomTwiser(TwisterEntity.LEVEL_NORMAL)
         viewState.setNewTwister(twister)
         preparingTimer?.stop()
         preparingTimer = MyTimer(-1, 0, 7, actForTimer = { viewState.setStatusText("Время для подготовки: $it сек") },
@@ -58,11 +66,9 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
     private fun startNewRecording(twister: TwisterEntity) {
         viewState.setStatusText("Подождите...")
         recognizers.add(Recognizer.create("ru-RU", Recognizer.Model.NOTES, object : RecognizerListener{
-            override fun onRecordingDone(p0: Recognizer?) {
-                if(!isLastFlag) {
-                    setNewTwister()
-                }
-            }
+            var startTime : Long = 0
+            var endTime: Long = 0
+            val twister1 = twister
 
             override fun onSoundDataRecorded(p0: Recognizer?, p1: ByteArray?) {
 
@@ -77,7 +83,13 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
             }
 
             override fun onRecordingBegin(p0: Recognizer?) {
+                Log.d("Listener", "onRecBeg")
                 viewState.setStatusText("Говорите")
+                startTime = System.currentTimeMillis()
+
+            }
+            override fun onRecordingDone(p0: Recognizer?) {
+                endTime = System.currentTimeMillis()
             }
 
             override fun onSpeechEnds(p0: Recognizer?) {
@@ -89,9 +101,12 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
             }
 
             override fun onRecognitionDone(p0: Recognizer?, p1: Recognition?) {
+                results.add(TwisterSpeechResult(twister1, p1!!.bestResultText, (endTime - startTime - 50).toInt()))
                 if(isLastFlag){
+                    isLastFlag = false
                     router.showSystemMessage("Finish")
                     viewState.setMode(TwisterView.MODE_PREPARING)
+                    TwisterAnalyser.analyse(results)
                 }
             }
 
@@ -99,7 +114,8 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
 
             }
 
-        }, true).apply { start() })
+        }, true))
+        recognizers.last().start()
     }
 
     fun nextTwister() {
@@ -109,6 +125,7 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
 
     fun finishTwistering(){
         isLastFlag = true
+        preparingTimer?.stop()
         if(!recognizers.isEmpty()) recognizers.last().finishRecording()
         viewState.setStatusText("Подождите. Идет анализ.")
     }

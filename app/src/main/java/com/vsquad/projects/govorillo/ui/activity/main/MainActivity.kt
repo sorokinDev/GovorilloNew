@@ -22,11 +22,13 @@ import com.vsquad.projects.govorillo.common.PrefConst
 import com.vsquad.projects.govorillo.common.SharedPrefUtils
 import com.vsquad.projects.govorillo.model.analyser.BaseTextAnalyser
 import com.vsquad.projects.govorillo.model.analyser.TextAnalysisResult
+import com.vsquad.projects.govorillo.model.analyser.TwisterAnalysisResult
 import com.vsquad.projects.govorillo.ui.fragment.auth.AuthFragment
 import com.vsquad.projects.govorillo.ui.fragment.free_topic.FreeTopicFragment
 import com.vsquad.projects.govorillo.ui.fragment.profile.ProfileFragment
 import com.vsquad.projects.govorillo.ui.fragment.random_topic.RandomTopicFragment
 import com.vsquad.projects.govorillo.ui.fragment.result.TopicResultFragment
+import com.vsquad.projects.govorillo.ui.fragment.result.TwisterResultFragment
 import com.vsquad.projects.govorillo.ui.fragment.twister.TwisterFragment
 
 import kotlinx.android.synthetic.main.activity_main.*;
@@ -127,6 +129,7 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
                 Screens.TOPIC_RESULT_SCREEN -> TopicResultFragment.newInstance(data!! as TextAnalysisResult)
                 Screens.AUTH_SCREEN -> AuthFragment.newInstance()
                 Screens.PROFILE_SCREEN -> ProfileFragment.newInstance()
+                Screens.TWISTER_RESULT_SCREEN -> TwisterResultFragment.newInstance(data!! as TwisterAnalysisResult)
                 else -> TwisterFragment.newInstance()
             }
             return fragment

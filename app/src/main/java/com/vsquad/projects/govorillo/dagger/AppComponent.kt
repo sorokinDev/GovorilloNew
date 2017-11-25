@@ -8,6 +8,7 @@ import com.vsquad.projects.govorillo.presentation.presenter.main.MainActivityPre
 import com.vsquad.projects.govorillo.presentation.presenter.profile.ProfilePresenter
 import com.vsquad.projects.govorillo.presentation.presenter.random_topic.RandomTopicPresenter
 import com.vsquad.projects.govorillo.presentation.presenter.result.TopicResultPresenter
+import com.vsquad.projects.govorillo.presentation.presenter.result.TwisterResultPresenter
 import com.vsquad.projects.govorillo.presentation.presenter.twister.TwisterPresenter
 import com.vsquad.projects.govorillo.ui.activity.main.MainActivity
 import com.vsquad.projects.govorillo.ui.fragment.auth.AuthFragment
@@ -15,6 +16,7 @@ import com.vsquad.projects.govorillo.ui.fragment.free_topic.FreeTopicFragment
 import com.vsquad.projects.govorillo.ui.fragment.profile.ProfileFragment
 import com.vsquad.projects.govorillo.ui.fragment.random_topic.RandomTopicFragment
 import com.vsquad.projects.govorillo.ui.fragment.result.TopicResultFragment
+import com.vsquad.projects.govorillo.ui.fragment.result.TwisterResultFragment
 import com.vsquad.projects.govorillo.ui.fragment.twister.TwisterFragment
 import dagger.Component
 import javax.inject.Singleton
@@ -33,6 +35,7 @@ interface AppComponent {
     fun inject(fragment: FreeTopicFragment)
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: AuthFragment)
+    fun inject(fragment: TwisterResultFragment)
 
     fun inject(presenter: MainActivityPresenter)
 
@@ -42,4 +45,5 @@ interface AppComponent {
     fun inject(presenter: FreeTopicPresenter)
     fun inject(presenter: ProfilePresenter)
     fun inject(presenter: AuthPresenter)
+    fun inject(presenter: TwisterResultPresenter)
 }

@@ -19,6 +19,10 @@ import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 class TwisterFragment : BaseFragment(), TwisterView {
+    override fun pulse() {
+        pulsator.start()
+    }
+
     override fun setStatusText(txt: String){
         tv_status.text = txt
     }

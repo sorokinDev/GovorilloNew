@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.vsquad.projects.govorillo.GovorilloApplication
+import com.vsquad.projects.govorillo.Screens
 import com.vsquad.projects.govorillo.common.MyTimer
 import com.vsquad.projects.govorillo.model.analyser.TwisterAnalyser
 import com.vsquad.projects.govorillo.model.analyser.TwisterSpeechResult
@@ -48,8 +49,12 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
 
     fun changeMode(mode: Int) {
         viewState.setMode(mode)
+
         if(mode == TwisterView.MODE_TWISTERING){
             setNewTwister()
+        }else{
+            results.clear()
+            recognizers.clear()
         }
     }
 
@@ -85,6 +90,7 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
             override fun onRecordingBegin(p0: Recognizer?) {
                 Log.d("Listener", "onRecBeg")
                 viewState.setStatusText("Говорите")
+                viewState.pulse()
                 startTime = System.currentTimeMillis()
 
             }
@@ -105,8 +111,9 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
                 if(isLastFlag){
                     isLastFlag = false
                     router.showSystemMessage("Finish")
-                    viewState.setMode(TwisterView.MODE_PREPARING)
-                    TwisterAnalyser.analyse(results)
+                    changeMode(TwisterView.MODE_PREPARING)
+                    var analysisRes = TwisterAnalyser.analyse(results)
+                    router.navigateTo(Screens.TWISTER_RESULT_SCREEN, analysisRes)
                 }
             }
 

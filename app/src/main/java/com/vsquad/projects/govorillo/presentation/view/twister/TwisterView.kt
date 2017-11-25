@@ -2,6 +2,7 @@ package com.vsquad.projects.govorillo.presentation.view.twister
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.vsquad.projects.govorillo.model.entity.TwisterEntity
@@ -20,4 +21,7 @@ interface TwisterView : MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun setStatusText(txt: String)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun pulse()
 }

@@ -12,6 +12,7 @@ class SharedPrefUtils{
         val sPref = GovorilloApplication.INSTANCE.getSharedPreferences(PrefConst.APP_PREFERENCES, Context.MODE_PRIVATE)
         fun edit() = sPref.edit()
     }
+
 }
 
 fun <T> Array<T>.getRandom(): T = this[(this.count() * Math.random()).toInt()]

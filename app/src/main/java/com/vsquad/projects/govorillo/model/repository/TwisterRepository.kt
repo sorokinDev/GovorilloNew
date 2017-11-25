@@ -25,12 +25,9 @@ class TwisterRepository {
     val TWISTERS = arrayOf(TwisterEntity("Шла Саша по шоссе и сосала сушку", TwisterEntity.LEVEL_EASY),
             TwisterEntity("Вашему пономарю нашего пономаря не перепономарить стать. Наш пономарь вашего пономаря перепономарит, перевыпономарит.", TwisterEntity.LEVEL_NORMAL),
             TwisterEntity("Сорока за строчкою строчка строчит сорочатам сорочки.", TwisterEntity.LEVEL_HARD))
-    lateinit var twistersFromCsv: Array<TwisterEntity?>
+    var twistersFromCsv: Array<TwisterEntity?>
     init {
         val reader = CSVReader(InputStreamReader(GovorilloApplication.INSTANCE.assets.open("twisters.csv")))
-
-
-        var nextLine: Array<String>
 
         var allRows = reader.readAll()
         twistersFromCsv = arrayOfNulls(allRows.size)
@@ -51,7 +48,7 @@ class TwisterRepository {
         }*/
     }
 
-    fun getRandomTwiser(level: String): TwisterEntity{
+    fun getRandomTwiser(level: String = TwisterEntity.LEVEL_NORMAL): TwisterEntity{
         /*val filteredByLevel = TWISTERS.filter { it.level == level }
         return filteredByLevel[0]*/
         return twistersFromCsv.getRandom()!!

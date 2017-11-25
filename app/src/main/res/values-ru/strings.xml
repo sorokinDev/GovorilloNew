@@ -9,6 +9,8 @@
     <string name="nav_random_topic">Рассуждение по теме</string>
     <string name="nav_main">Главная</string>
     <string name="auth_with_social_network">Вход через социальные сети:</string>
+    <string name="hint_email">E-mail</string>
+    <string name="hint_tel">Номер телефона</string>
     <string name="hint_password">Пароль</string>
     <string name="sign_in">Войти</string>
     <string name="sign_up">Регистрация</string>

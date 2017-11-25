@@ -12,7 +12,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.model.analyser.TwisterAnalysisResult
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_topic_result.*
+import kotlinx.android.synthetic.main.fragment_twister_result.*
 
 class TwisterResultFragment : BaseFragment(), TwisterResultView {
     override fun setSpeechResult(res: TwisterAnalysisResult) {

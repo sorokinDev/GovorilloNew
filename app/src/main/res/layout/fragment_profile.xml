@@ -1,11 +1,37 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.vsquad.projects.govorillo.ui.fragment.profile.ProfileFragment">
-    <Button
-        android:id="@+id/btn_exit"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_hints"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выйти"/>
-</FrameLayout>
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/user_profile_stub" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_exit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Выйти"
+            app:fb_defaultColor="#3f729b"
+            app:fb_focusColor="#313131"
+            app:fb_iconPaddingLeft="0dp"
+            app:fb_iconPaddingRight="0dp" />
+    </LinearLayout>
+</RelativeLayout>

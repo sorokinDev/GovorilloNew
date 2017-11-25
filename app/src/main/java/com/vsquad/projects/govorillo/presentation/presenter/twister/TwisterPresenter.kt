@@ -111,9 +111,9 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
                 if(isLastFlag){
                     isLastFlag = false
                     router.showSystemMessage("Finish")
-                    changeMode(TwisterView.MODE_PREPARING)
                     var analysisRes = TwisterAnalyser.analyse(results)
                     router.navigateTo(Screens.TWISTER_RESULT_SCREEN, analysisRes)
+                    changeMode(TwisterView.MODE_PREPARING)
                 }
             }
 

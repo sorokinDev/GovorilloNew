@@ -12,6 +12,8 @@ import com.vsquad.projects.govorillo.presentation.view.random_topic.RandomTopicV
 import com.vsquad.projects.govorillo.presentation.presenter.random_topic.RandomTopicPresenter
 
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.facebook.FacebookSdk
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.common.MyTimer
 import com.vsquad.projects.govorillo.common.PrefConst
@@ -25,6 +27,8 @@ import kotlinx.android.synthetic.main.fragment_random_topic.*;
 
 
 class RandomTopicFragment : BaseFragment(), RandomTopicView {
+    lateinit var mixpanel : MixpanelAPI
+
     override fun setPreparingTime(time: Int) {
         tv_time_for_preparing.text = String.format(resources.getString(R.string.time_for_preparing), time)
     }
@@ -61,6 +65,8 @@ class RandomTopicFragment : BaseFragment(), RandomTopicView {
 
         }else if(speakingState == SpeakingState.STARTING) {
             btn_switch_speaking.setText("...Wait...")
+            mixpanel.track("[RandomTopic] -> Start talking")
+            mixpanel.track("[RandomTopic] Topic: "+tv_topic.text)
             ll_while_prep.visibility = View.GONE
             btn_next_topic.visibility = View.GONE
         }else if(speakingState == SpeakingState.STARTED){
@@ -106,12 +112,15 @@ class RandomTopicFragment : BaseFragment(), RandomTopicView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
+        mixpanel.track("[RandomTopic]")
         return inflater.inflate(R.layout.fragment_random_topic, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_next_topic.setOnClickListener {
+            mixpanel.track("[RandomTopic] -> Next topic")
             mRandomTopicPresenter.setRandomTopic()
         }
         btn_switch_speaking.setOnClickListener{

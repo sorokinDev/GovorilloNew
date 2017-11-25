@@ -1,26 +1,26 @@
 package com.vsquad.projects.govorillo.ui.fragment.result
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.arellomobile.mvp.MvpAppCompatFragment
 import com.vsquad.projects.govorillo.R
 import com.vsquad.projects.govorillo.presentation.view.result.TopicResultView
 import com.vsquad.projects.govorillo.presentation.presenter.result.TopicResultPresenter
 
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vsquad.projects.govorillo.GovorilloApplication
+import com.vsquad.projects.govorillo.common.getRandom
 import com.vsquad.projects.govorillo.model.analyser.BaseTextAnalyser
 import com.vsquad.projects.govorillo.model.analyser.TextAnalysisResult
+import com.vsquad.projects.govorillo.model.analyser.TwisterAnalysisResult
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_topic_result.*
-
-import android.graphics.Color.parseColor
-import android.os.Handler
-import com.vsquad.projects.govorillo.common.getRandom
-
+import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 class TopicResultFragment : BaseFragment(), TopicResultView {
     override fun setSpeechResult(res: TextAnalysisResult) {
@@ -61,23 +61,23 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
 
         //region HADRNESS
         val SMOGCategories = arrayOf(
-            "1 - 3-й класс (возраст примерно: 6-8 лет)",
-            "1 - 3-й класс (возраст примерно: 6-8 лет)",
-            "1 - 3-й класс (возраст примерно: 6-8 лет)",
-            "4 - 6-й класс (возраст примерно: 9-11 лет)",
-            "4 - 6-й класс (возраст примерно: 9-11 лет)",
-            "4 - 6-й класс (возраст примерно: 9-11 лет)",
-            "7 - 9-й класс (возраст примерно: 12-14 лет)",
-            "7 - 9-й класс (возраст примерно: 12-14 лет)",
-            "7 - 9-й класс (возраст примерно: 12-14 лет)",
-            "10 - 11-й класс (возраст примерно: 15-16 лет)",
-            "10 - 11-й класс (возраст примерно: 15-16 лет)",
-            "1 - 3 курсы ВУЗа (возраст примерно: 17-19 лет)",
-            "1 - 3 курсы ВУЗа (возраст примерно: 17-19 лет)",
-            "1 - 3 курсы ВУЗа (возраст примерно: 17-19 лет)",
-            "4 - 6 курсы ВУЗа (возраст примерно: 20-22 лет)",
-            "4 - 6 курсы ВУЗа (возраст примерно: 20-22 лет)",
-            "4 - 6 курсы ВУЗа (возраст примерно: 20-22 лет)"
+                "1 - 3-й класс (возраст примерно: 6-8 лет)",
+                "1 - 3-й класс (возраст примерно: 6-8 лет)",
+                "1 - 3-й класс (возраст примерно: 6-8 лет)",
+                "4 - 6-й класс (возраст примерно: 9-11 лет)",
+                "4 - 6-й класс (возраст примерно: 9-11 лет)",
+                "4 - 6-й класс (возраст примерно: 9-11 лет)",
+                "7 - 9-й класс (возраст примерно: 12-14 лет)",
+                "7 - 9-й класс (возраст примерно: 12-14 лет)",
+                "7 - 9-й класс (возраст примерно: 12-14 лет)",
+                "10 - 11-й класс (возраст примерно: 15-16 лет)",
+                "10 - 11-й класс (возраст примерно: 15-16 лет)",
+                "1 - 3 курсы ВУЗа (возраст примерно: 17-19 лет)",
+                "1 - 3 курсы ВУЗа (возраст примерно: 17-19 лет)",
+                "1 - 3 курсы ВУЗа (возраст примерно: 17-19 лет)",
+                "4 - 6 курсы ВУЗа (возраст примерно: 20-22 лет)",
+                "4 - 6 курсы ВУЗа (возраст примерно: 20-22 лет)",
+                "4 - 6 курсы ВУЗа (возраст примерно: 20-22 лет)"
         )
         val smogForArray: Int = minOf(Math.round(res.SMOG_index), 16).toInt()
         tv_hardness.text = "Текст будет понятен людям с образованием: " + SMOGCategories[smogForArray]
@@ -108,11 +108,11 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
         }else{
             ll_random_topic_only.visibility = View.GONE
         }
-
     }
 
     override var fragmentTitle: String = "Результат"
-    lateinit var speechRes: TextAnalysisResult
+    lateinit var stringRes: String
+    lateinit var mixpanel : MixpanelAPI
 
     companion object {
         const val TAG = "TopicResultFragment"
@@ -121,9 +121,7 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
             val fragment: TopicResultFragment = TopicResultFragment()
 
             val args: Bundle = Bundle()
-
-            args.putParcelable("RESULT", res)
-
+            args.putString("RESULT", res.toString())
             fragment.arguments = args
             return fragment
         }
@@ -138,18 +136,17 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
         GovorilloApplication.INSTANCE.getAppComponent().inject(this)
         super.onCreate(savedInstanceState)
         if(arguments != null){
-            speechRes = arguments.getParcelable("RESULT")
-            mRandomTopicResultPresenter.speechRes = speechRes
+            stringRes = arguments.getString("RESULT")
         }
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
         return inflater.inflate(R.layout.fragment_topic_result, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 }

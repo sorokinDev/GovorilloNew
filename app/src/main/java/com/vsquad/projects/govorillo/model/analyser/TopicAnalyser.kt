@@ -2,6 +2,7 @@ package com.vsquad.projects.govorillo.model.analyser
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import com.vsquad.projects.govorillo.model.entity.TopicEntity
 
 /**
@@ -52,8 +53,6 @@ open class TextAnalysisResult() : Parcelable{
 
 }
 open class BaseTextAnalyser {
-
-
     companion object {
         val VOWELS = "уеыаоэяиюё"
         //Number of syllabes for long words
@@ -78,6 +77,8 @@ open class BaseTextAnalyser {
             val txtNoSigns = txt.replace("[^A-Za-zА-Яа-я0-9\\s]".toRegex(), "")
 
             res.text = txt
+            Log.d("ANALYSER", res.text)
+            Log.d("ANALYSER", txtNoSigns)
             res.speed = (txtNoSigns.split(" ").count()*60.0/timeOfSpeech).toInt()
             res.SMOG_index = getSMOGIndex(txt, txtNoSigns)
             res.waterness = getWaterness(txt, txtNoSigns)

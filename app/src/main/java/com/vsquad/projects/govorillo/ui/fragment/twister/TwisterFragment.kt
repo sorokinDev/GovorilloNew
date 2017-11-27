@@ -11,6 +11,7 @@ import com.vsquad.projects.govorillo.presentation.presenter.twister.TwisterPrese
 
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.model.entity.TwisterEntity
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
@@ -20,6 +21,8 @@ import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 class TwisterFragment : BaseFragment(), TwisterView {
+    lateinit var mixpanel : MixpanelAPI
+
     override fun pulse() {
         pulsator.startRippleAnimation()
         Handler().postDelayed({ pulsator.stopRippleAnimation()}, 200)
@@ -69,6 +72,8 @@ class TwisterFragment : BaseFragment(), TwisterView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
+        mixpanel.track("[Twisters]")
         return inflater.inflate(R.layout.fragment_twister, container, false)
     }
 
@@ -76,12 +81,15 @@ class TwisterFragment : BaseFragment(), TwisterView {
         super.onViewCreated(view, savedInstanceState)
         btn_start_twistering.onClick {
             mTwisterPresenter.changeMode(TwisterView.MODE_TWISTERING)
+            mixpanel.track("[Twisters] -> start")
         }
 
         btn_next_twister.onClick {
             mTwisterPresenter.nextTwister()
+            mixpanel.track("[Twisters] -> next twister")
         }
         btn_finish.onClick {
+            mixpanel.track("[Twisters] -> finish")
             mTwisterPresenter.finishTwistering()
         }
 

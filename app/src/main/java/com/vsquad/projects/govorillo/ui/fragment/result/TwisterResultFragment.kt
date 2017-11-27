@@ -9,6 +9,7 @@ import com.vsquad.projects.govorillo.presentation.view.result.TwisterResultView
 import com.vsquad.projects.govorillo.presentation.presenter.result.TwisterResultPresenter
 
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vsquad.projects.govorillo.GovorilloApplication
 import com.vsquad.projects.govorillo.model.analyser.TwisterAnalysisResult
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
@@ -35,6 +36,7 @@ class TwisterResultFragment : BaseFragment(), TwisterResultView {
     }
 
     lateinit var speechRes: TwisterAnalysisResult
+    lateinit var mixpanel : MixpanelAPI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         GovorilloApplication.INSTANCE.getAppComponent().inject(this)
@@ -50,6 +52,8 @@ class TwisterResultFragment : BaseFragment(), TwisterResultView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
+        mixpanel.track("[Twister Result]")
         return inflater.inflate(R.layout.fragment_twister_result, container, false)
     }
 

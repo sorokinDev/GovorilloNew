@@ -111,8 +111,8 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
     }
 
     override var fragmentTitle: String = "Результат"
-    lateinit var stringRes: String
-    lateinit var mixpanel : MixpanelAPI
+    lateinit var speechRes: TextAnalysisResult
+    lateinit var mixpanel: MixpanelAPI
 
     companion object {
         const val TAG = "TopicResultFragment"
@@ -121,7 +121,9 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
             val fragment: TopicResultFragment = TopicResultFragment()
 
             val args: Bundle = Bundle()
-            args.putString("RESULT", res.toString())
+
+            args.putParcelable("RESULT", res)
+
             fragment.arguments = args
             return fragment
         }
@@ -136,13 +138,15 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
         GovorilloApplication.INSTANCE.getAppComponent().inject(this)
         super.onCreate(savedInstanceState)
         if(arguments != null){
-            stringRes = arguments.getString("RESULT")
+            speechRes = arguments.getParcelable("RESULT")
+            mRandomTopicResultPresenter.speechRes = speechRes
         }
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
+        mixpanel.track("[Topic Result]")
         return inflater.inflate(R.layout.fragment_topic_result, container, false)
     }
 

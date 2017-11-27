@@ -38,7 +38,7 @@
                     app:sv_unitTextSize="12sp"
                     app:sv_textSize="10sp"
                     android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_height="210dp"
                     app:sv_minSpeed="100"
                     app:sv_maxSpeed="1800"
                     app:sv_withTremble="false"/>

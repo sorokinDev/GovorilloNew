@@ -1,6 +1,7 @@
 package com.vsquad.projects.govorillo.ui.fragment.twister
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 class TwisterFragment : BaseFragment(), TwisterView {
     override fun pulse() {
-        pulsator.start()
+        pulsator.startRippleAnimation()
+        Handler().postDelayed({ pulsator.stopRippleAnimation()}, 200)
     }
 
     override fun setStatusText(txt: String){

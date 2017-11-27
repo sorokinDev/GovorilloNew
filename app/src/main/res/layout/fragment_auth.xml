@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,7 +26,7 @@
             android:id="@+id/which_method_tel"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="Phone number"
+            android:text="@string/hint_tel"
             app:fb_defaultColor="#93B3C9"
             app:fb_focusColor="#313131"
             app:fb_iconPaddingLeft="0dp"
@@ -34,12 +34,18 @@
             android:layout_weight="1"
             />
     </LinearLayout>
+    <TextView android:text="Войдите или зарегистрируйтесь для дальнейшего использования приложения."
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+
     <LinearLayout
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal">
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,14 +121,14 @@
 
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_alignParentBottom="true"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal"
         android:paddingTop="8dp">
         <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_alignParentBottom="true"
             android:id="@+id/user"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -131,5 +137,5 @@
             app:fb_focusColor="#313131"
             app:fb_iconPaddingLeft="0dp"
             app:fb_iconPaddingRight="0dp" />
-    </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

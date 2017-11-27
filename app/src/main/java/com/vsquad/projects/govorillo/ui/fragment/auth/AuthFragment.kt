@@ -21,6 +21,7 @@ import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_auth.*
 import android.content.Intent
 import android.graphics.MaskFilter
+import android.net.Uri
 import android.provider.ContactsContract
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.InputType
@@ -104,7 +105,7 @@ class AuthFragment : BaseFragment(), AuthView {
 
     }
 
-        override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         btn_sign_in.setOnClickListener {
@@ -259,6 +260,10 @@ class AuthFragment : BaseFragment(), AuthView {
                     Log.d("FACEBOOK_AUTH", "Error")
                 }
             })
+        }
+
+        user.onClick {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://govorillo.ru/agreement.pdf")))
         }
 
         which_method_email.setOnClickListener {

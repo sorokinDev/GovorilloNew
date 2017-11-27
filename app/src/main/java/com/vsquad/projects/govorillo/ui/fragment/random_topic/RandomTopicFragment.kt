@@ -64,17 +64,17 @@ class RandomTopicFragment : BaseFragment(), RandomTopicView {
             btn_next_topic.visibility = View.VISIBLE
 
         }else if(speakingState == SpeakingState.STARTING) {
-            btn_switch_speaking.setText("...Wait...")
+            btn_switch_speaking.setText("...Подождите...")
             mixpanel.track("[RandomTopic] -> Start talking")
             mixpanel.track("[RandomTopic] Topic: "+tv_topic.text)
             ll_while_prep.visibility = View.GONE
             btn_next_topic.visibility = View.GONE
         }else if(speakingState == SpeakingState.STARTED){
             ll_while_speaking.visibility = View.VISIBLE
-            btn_switch_speaking.setText("Speak")
+            btn_switch_speaking.setText("Говорите")
             pulsator.start()
         }else if(speakingState == SpeakingState.FINISHING){
-            btn_switch_speaking.setText("...Analyzing...")
+            btn_switch_speaking.setText("...Подождите...")
             pulsator.stop()
         }
 

@@ -133,7 +133,11 @@ class TwisterPresenter : BaseFragmentPresenter<TwisterView>() {
     fun finishTwistering(){
         isLastFlag = true
         preparingTimer?.stop()
-        if(!recognizers.isEmpty()) recognizers.last().finishRecording()
+        if(!recognizers.isEmpty())
+            recognizers.last().finishRecording()
+        else{
+            changeMode(TwisterView.MODE_PREPARING)
+        }
         viewState.setStatusText("Подождите. Идет анализ.")
     }
 

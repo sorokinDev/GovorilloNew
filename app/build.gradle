@@ -53,6 +53,7 @@ dependencies {
     compile 'com.github.medyo:fancybuttons:1.8.4'
     compile 'pl.bclogic:pulsator4droid:1.0.3'
     compile 'com.github.anastr:speedviewlib:1.1.6'
+    compile 'com.skyfishjy.ripplebackground:library:1.0.1'
 
     //Yandex speech kit
     compile 'com.yandex.android:speechkit:2.5.0'

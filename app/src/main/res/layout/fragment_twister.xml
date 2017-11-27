@@ -4,16 +4,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.vsquad.projects.govorillo.ui.fragment.twister.TwisterFragment">
-    <pl.bclogic.pulsator4droid.library.PulsatorLayout
+    <com.skyfishjy.library.RippleBackground
         android:id="@+id/pulsator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:pulse_count="1"
-        app:pulse_duration="500"
-        app:pulse_repeat="1"
-        app:pulse_color="@color/colorAccent"
-        app:pulse_startFromScratch="true"
-        app:pulse_interpolator="Linear">
+        app:rb_color="#0099CC"
+        app:rb_rippleAmount="1"
+        app:rb_duration="200"
+        >
         <RelativeLayout
             android:id="@+id/rl_on_start_only"
             android:layout_width="match_parent"
@@ -45,8 +43,7 @@
             android:id="@+id/rl_on_twistering_only"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
-            android:padding="16dp">
+            android:visibility="visible">
 
 
             <LinearLayout
@@ -59,7 +56,8 @@
                     android:id="@+id/tv_twister"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="20sp"
                     tools:text="Это какая-то очень большая тема... Интересно, она будет нормально отображаться? Надеюсь да" />
             </LinearLayout>
 
@@ -72,6 +70,7 @@
 
                 <TextView
                     android:id="@+id/tv_status"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
@@ -80,12 +79,12 @@
                 <mehdi.sakout.fancybuttons.FancyButton
                     android:id="@+id/btn_next_twister"
                     android:layout_width="180dp"
-                    android:layout_height="64dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="16dp"
                     android:text="Следующая скороговорка"
-                    app:fb_defaultColor="#3f729b"
-                    app:fb_focusColor="#313131"
+                    app:fb_defaultColor="#26a69a"
+                    app:fb_focusColor="#135650"
                     app:fb_iconPaddingLeft="0dp"
                     app:fb_iconPaddingRight="0dp"
                     app:fb_radius="200dp" />
@@ -93,7 +92,7 @@
                 <mehdi.sakout.fancybuttons.FancyButton
                     android:id="@+id/btn_finish"
                     android:layout_width="180dp"
-                    android:layout_height="64dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="16dp"
                     android:text="Закончить"
@@ -104,5 +103,5 @@
                     app:fb_radius="200dp" />
             </LinearLayout>
         </RelativeLayout>
-    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+    </com.skyfishjy.library.RippleBackground>
 </FrameLayout>

@@ -75,9 +75,7 @@ abstract class BaseTopicPresenter<T : BaseTopicView> : BaseFragmentPresenter<T>(
             viewState.setSpeakingState(speakingState)
             recognizer = Recognizer.create("ru-RU", Recognizer.Model.NOTES, this, true)
             recognizer.start()
-            tmrSpeech = MyTimer(1, 0, Int.MAX_VALUE){
-                viewState.setSpeakingTime(it)
-            }
+            tmrSpeech = MyTimer(1, 0, Int.MAX_VALUE, { viewState.setSpeakingTime(it) })
             tmrSpeech.start()
         }else if (speakingState == SpeakingState.STARTED){
             speakingState = SpeakingState.FINISHING

@@ -1,6 +1,7 @@
 package com.vsquad.projects.govorillo.ui.fragment.twister
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +11,43 @@ import com.vsquad.projects.govorillo.presentation.presenter.twister.TwisterPrese
 
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.facebook.FacebookSdk
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vsquad.projects.govorillo.GovorilloApplication
+import com.vsquad.projects.govorillo.model.entity.TwisterEntity
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_twister.*
+import org.jetbrains.anko.onClick
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 class TwisterFragment : BaseFragment(), TwisterView {
-    override var fragmentTitle: String = "Скороговорки"
     lateinit var mixpanel : MixpanelAPI
+
+    override fun pulse() {
+        pulsator.startRippleAnimation()
+        Handler().postDelayed({ pulsator.stopRippleAnimation()}, 200)
+    }
+
+    override fun setStatusText(txt: String){
+        tv_status.text = txt
+    }
+
+    override fun setNewTwister(twister: TwisterEntity) {
+        tv_twister.text = twister.text
+    }
+
+    override fun setMode(mode: Int) {
+        if(mode == TwisterView.MODE_PREPARING){
+            rl_on_start_only.visibility = View.VISIBLE
+            rl_on_twistering_only.visibility = View.GONE
+        }else if(mode == TwisterView.MODE_TWISTERING){
+            rl_on_start_only.visibility = View.GONE
+            rl_on_twistering_only.visibility = View.VISIBLE
+        }
+
+    }
+
+    override var fragmentTitle: String = "Скороговорки"
 
     companion object {
         const val TAG = "TwisterFragment"
@@ -51,6 +79,19 @@ class TwisterFragment : BaseFragment(), TwisterView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        btn_start_twistering.onClick {
+            mTwisterPresenter.changeMode(TwisterView.MODE_TWISTERING)
+            mixpanel.track("[Twisters] -> start")
+        }
+
+        btn_next_twister.onClick {
+            mTwisterPresenter.nextTwister()
+            mixpanel.track("[Twisters] -> next twister")
+        }
+        btn_finish.onClick {
+            mixpanel.track("[Twisters] -> finish")
+            mTwisterPresenter.finishTwistering()
+        }
 
     }
 }

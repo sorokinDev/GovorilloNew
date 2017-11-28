@@ -1,24 +1,58 @@
 package com.vsquad.projects.govorillo.model.analyser
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Log
 import com.vsquad.projects.govorillo.model.entity.TopicEntity
 
 /**
  * Created by Vova on 18.11.2017.
  */
-open class BaseTextAnalyser {
-    open class Result(){
-        lateinit var text: String
-        var speed: Int = 0
-        var SMOG_index: Double = 0.0
-        var waterness: Double = 0.0
-        var speechTimeDiff = 0.0
-        var preparingTimeDiff = 0.0
-        override fun toString(): String {
-            return "Result(text='$text'\nspeed=$speed\nSMOG_index=$SMOG_index\nwaterness=$waterness\nspeechTimeDiff=$speechTimeDiff\npreparingTimeDiff=$preparingTimeDiff)"
+open class TextAnalysisResult() : Parcelable{
+    lateinit var text: String
+    var speed: Int = 0
+    var SMOG_index: Double = 0.0
+    var waterness: Double = 0.0
+    var speechTimeDiff = 0.0
+    var preparingTimeDiff = 0.0
+    var isRandomTopic = false
+
+    constructor(parcel: Parcel) : this() {
+        text = parcel.readString()
+        speed = parcel.readInt()
+        SMOG_index = parcel.readDouble()
+        waterness = parcel.readDouble()
+        speechTimeDiff = parcel.readDouble()
+        preparingTimeDiff = parcel.readDouble()
+        isRandomTopic = parcel.readByte() != 0.toByte()
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(text)
+        parcel.writeInt(speed)
+        parcel.writeDouble(SMOG_index)
+        parcel.writeDouble(waterness)
+        parcel.writeDouble(speechTimeDiff)
+        parcel.writeDouble(preparingTimeDiff)
+        parcel.writeByte(if (isRandomTopic) 1 else 0)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<TextAnalysisResult> {
+        override fun createFromParcel(parcel: Parcel): TextAnalysisResult {
+            return TextAnalysisResult(parcel)
+        }
+
+        override fun newArray(size: Int): Array<TextAnalysisResult?> {
+            return arrayOfNulls(size)
         }
     }
 
+}
+open class BaseTextAnalyser {
     companion object {
         val VOWELS = "уеыаоэяиюё"
         //Number of syllabes for long words
@@ -38,15 +72,18 @@ open class BaseTextAnalyser {
         val WATER_PHRASES = setOf("короче", "конечно", "однако", "это", "типа", "типо", "как бы", "так сказать",
                 "прежде всего", "хочется отметить", "стоит отметить" , "хотелось бы отметить")
 
-        fun analyse(txt: String, timeOfSpeech: Int, prepTime: Int? = null, topic: TopicEntity? = null): BaseTextAnalyser.Result{
-            val res: BaseTextAnalyser.Result = BaseTextAnalyser.Result()
-            val txtNoSigns = txt.replace("[^A-Za-z0-9\\s]", "")
+        fun analyse(txt: String, timeOfSpeech: Int, prepTime: Int? = null, topic: TopicEntity? = null): TextAnalysisResult {
+            val res: TextAnalysisResult = TextAnalysisResult()
+            val txtNoSigns = txt.replace("[^A-Za-zА-Яа-я0-9\\s]".toRegex(), "")
 
             res.text = txt
+            Log.d("ANALYSER", res.text)
+            Log.d("ANALYSER", txtNoSigns)
             res.speed = (txtNoSigns.split(" ").count()*60.0/timeOfSpeech).toInt()
             res.SMOG_index = getSMOGIndex(txt, txtNoSigns)
             res.waterness = getWaterness(txt, txtNoSigns)
             if(prepTime != null && topic != null){
+                res.isRandomTopic = true
                 res.speechTimeDiff = (timeOfSpeech - topic.speechTime).toDouble() / topic.speechTime
                 res.preparingTimeDiff = (prepTime - topic.preparingTime).toDouble() / topic.preparingTime
             }

@@ -1,6 +1,7 @@
 package com.vsquad.projects.govorillo.dagger.module
 
 import com.vsquad.projects.govorillo.model.repository.TopicRepository
+import com.vsquad.projects.govorillo.model.repository.TwisterRepository
 import dagger.Module
 import dagger.Provides
 import ru.terrakok.cicerone.Cicerone
@@ -13,6 +14,8 @@ import javax.inject.Singleton
 @Module
 class RepositoryModule {
     private val topicRepository: TopicRepository = TopicRepository()
-
     @Provides @Singleton fun provideTopicRepository(): TopicRepository = topicRepository
+
+    private val twisterRepository: TwisterRepository = TwisterRepository()
+    @Provides @Singleton fun provideTwisterRepository(): TwisterRepository= twisterRepository
 }

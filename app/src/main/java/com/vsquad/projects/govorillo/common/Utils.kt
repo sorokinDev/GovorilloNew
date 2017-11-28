@@ -14,3 +14,5 @@ class SharedPrefUtils{
     }
 
 }
+
+fun <T> Array<T>.getRandom(): T = this[(this.count() * Math.random()).toInt()]

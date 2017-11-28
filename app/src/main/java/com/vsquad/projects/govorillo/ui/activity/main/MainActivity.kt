@@ -1,11 +1,15 @@
 package com.vsquad.projects.govorillo.ui.activity.main
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.MenuItem
@@ -23,11 +27,14 @@ import com.vsquad.projects.govorillo.Screens
 import com.vsquad.projects.govorillo.common.PrefConst
 import com.vsquad.projects.govorillo.common.SharedPrefUtils
 import com.vsquad.projects.govorillo.model.analyser.BaseTextAnalyser
+import com.vsquad.projects.govorillo.model.analyser.TextAnalysisResult
+import com.vsquad.projects.govorillo.model.analyser.TwisterAnalysisResult
 import com.vsquad.projects.govorillo.ui.fragment.auth.AuthFragment
 import com.vsquad.projects.govorillo.ui.fragment.free_topic.FreeTopicFragment
 import com.vsquad.projects.govorillo.ui.fragment.profile.ProfileFragment
 import com.vsquad.projects.govorillo.ui.fragment.random_topic.RandomTopicFragment
 import com.vsquad.projects.govorillo.ui.fragment.result.TopicResultFragment
+import com.vsquad.projects.govorillo.ui.fragment.result.TwisterResultFragment
 import com.vsquad.projects.govorillo.ui.fragment.twister.TwisterFragment
 
 import kotlinx.android.synthetic.main.activity_main.*;
@@ -42,6 +49,7 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
 
     companion object {
         const val TAG = "MainActivity"
+        const val RECORD_AUDIO_REQUEST_CODE = 1
         fun getIntent(context: Context): Intent = Intent(context, MainActivity::class.java)
     }
 
@@ -83,6 +91,11 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
             }
             drawer_layout.closeDrawer(Gravity.START)
         }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), RECORD_AUDIO_REQUEST_CODE)
+        }
     }
 
     //region LIFECICLE NEEDS
@@ -101,7 +114,7 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
     private fun navigationItemSelected(item: MenuItem): Boolean {
         mMainActivityPresenter.onDrawerMenuClick(item.itemId)
         nav_view.setCheckedItem(item.itemId)
-        drawer_layout.closeDrawer(Gravity.START);
+        drawer_layout.closeDrawer(Gravity.START)
         return true
     }
 
@@ -125,9 +138,10 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
                 Screens.FREE_TOPIC_SCREEN -> FreeTopicFragment.newInstance()
                 Screens.TWISTER_SCREEN -> TwisterFragment.newInstance()
                 Screens.RANDOM_TOPIC_SCREEN -> RandomTopicFragment.newInstance()
-                Screens.TOPIC_RESULT_SCREEN -> TopicResultFragment.newInstance(data!! as BaseTextAnalyser.Result)
+                Screens.TOPIC_RESULT_SCREEN -> TopicResultFragment.newInstance(data!! as TextAnalysisResult)
                 Screens.AUTH_SCREEN -> AuthFragment.newInstance()
                 Screens.PROFILE_SCREEN -> ProfileFragment.newInstance()
+                Screens.TWISTER_RESULT_SCREEN -> TwisterResultFragment.newInstance(data!! as TwisterAnalysisResult)
                 else -> TwisterFragment.newInstance()
             }
             return fragment
@@ -137,11 +151,8 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
             finish()
         }
 
-        override fun showSystemMessage(message: String) {
-            //Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
-
-            var s : CharSequence = message
-            Snackbar.make(frame_content, s, Snackbar.LENGTH_LONG).show()
+        override fun showSystemMessage(message: String?) {
+            Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -156,8 +167,23 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
     }
     //endregion
 
-    fun getMixpanelToken(): String {
-        return "5c3fe12980d9a7c1736f393e360b84b6"
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == MainActivity.RECORD_AUDIO_REQUEST_CODE && grantResults.size == 1) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                val message = "Микрофон необходим для функционала."
+                Snackbar.make(frame_content, message, Snackbar.LENGTH_LONG)
+                        .setAction("ОК", object : View.OnClickListener {
+                            override fun onClick(v: View) {
+                                if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.RECORD_AUDIO)
+                                        != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.RECORD_AUDIO), RECORD_AUDIO_REQUEST_CODE)
+                                }
+                            }
+                        })
+                        .show()
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
 }

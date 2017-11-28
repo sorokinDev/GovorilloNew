@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     tools:context="com.vsquad.projects.govorillo.ui.fragment.random_topic.RandomTopicFragment">
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
                 android:id="@+id/tv_topic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 tools:text="Это какая-то очень большая тема... Интересно, она будет нормально отображаться? Надеюсь да"/>
         <LinearLayout
             android:id="@+id/ll_while_prep"
@@ -26,13 +26,13 @@
                 android:id="@+id/tv_time_for_speech"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 tools:text="Желаемое время выступления: 2 мин"/>
             <TextView
                 android:id="@+id/tv_time_for_preparing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 tools:text="Время на подготовку: 60 сек"/>
         </LinearLayout>
         <LinearLayout
@@ -75,8 +75,8 @@
                     android:layout_width="180dp"
                     android:layout_height="180dp"
                     android:layout_centerInParent="true"
-                    android:layout_marginBottom="20dp"
-                    android:text="start"
+                    android:layout_marginBottom="8dp"
+                    android:text="Начать"
                     app:fb_fontIconSize="100sp"
                     app:fb_defaultColor="#3f729b"
                     app:fb_focusColor="#313131"
@@ -91,7 +91,6 @@
             android:layout_width="180dp"
             android:layout_height="64dp"
             android:layout_marginBottom="16dp"
-
             android:text="Следующая тема"
             android:layout_gravity="center_horizontal"
             app:fb_defaultColor="#3f729b"

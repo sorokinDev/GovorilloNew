@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,7 +26,7 @@
             android:id="@+id/which_method_tel"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="Phone number"
+            android:text="@string/hint_tel"
             app:fb_defaultColor="#93B3C9"
             app:fb_focusColor="#313131"
             app:fb_iconPaddingLeft="0dp"
@@ -34,12 +34,22 @@
             android:layout_weight="1"
             />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Войдите или зарегистрируйтесь для дальнейшего использования приложения."
+        android:textAlignment="center" />
+
     <LinearLayout
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal">
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,12 +68,14 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_password"
             android:id="@+id/textInput_pass">
+
             <EditText
                 android:id="@+id/et_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:layout_marginBottom="5dp"
                 android:imeOptions="actionDone"
+                android:inputType="textPassword"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
         <LinearLayout
@@ -115,14 +127,23 @@
 
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_alignParentBottom="true"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal"
         android:paddingTop="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="55dp"
+            android:text="Обращаем ваше внимание, что нажимая кнопку регистрации, вы подтверждаете, что прочитали и соглашаетесь с пользовательским соглашением и др. документами."
+            android:textAlignment="center"
+            android:textSize="12sp" />
         <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_alignParentBottom="true"
             android:id="@+id/user"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -131,5 +152,5 @@
             app:fb_focusColor="#313131"
             app:fb_iconPaddingLeft="0dp"
             app:fb_iconPaddingRight="0dp" />
-    </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

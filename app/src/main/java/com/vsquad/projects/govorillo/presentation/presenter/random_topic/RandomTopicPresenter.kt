@@ -25,7 +25,7 @@ class RandomTopicPresenter : BaseTopicPresenter<RandomTopicView>() {
     lateinit var topic: TopicEntity
     override fun switchSpeakingState() {
         super.switchSpeakingState()
-        if(speakingState == SpeakingState.STARTED){
+        if(speakingState == SpeakingState.STARTING){
             tmrPrep!!.stop()
         }
     }
@@ -55,9 +55,7 @@ class RandomTopicPresenter : BaseTopicPresenter<RandomTopicView>() {
     fun setRandomTopic(){
         if(tmrPrep != null) tmrPrep!!.stop()
         topic = repository.getRandomTopic()
-        tmrPrep = MyTimer(-1, 0, topic.preparingTime){
-            viewState.setPreparingTime(it)
-        }
+        tmrPrep = MyTimer(-1, 0, topic.preparingTime, { viewState.setPreparingTime(it) })
         viewState.setTopic(topic)
 
         tmrPrep!!.start()

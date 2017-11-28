@@ -13,5 +13,6 @@ class Screens {
         val TOPIC_RESULT_SCREEN = "topic_result_screen"
         val AUTH_SCREEN = "auth_screen"
         val PROFILE_SCREEN = "profile_screen"
+        val TWISTER_RESULT_SCREEN = "twister_result_screen"
     }
 }

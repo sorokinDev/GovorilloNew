@@ -21,6 +21,7 @@ import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_auth.*
 import android.content.Intent
 import android.graphics.MaskFilter
+import android.net.Uri
 import android.provider.ContactsContract
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.InputType
@@ -36,6 +37,8 @@ import mehdi.sakout.fancybuttons.FancyButton
 import org.intellij.lang.annotations.JdkConstants
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.vsquad.projects.govorillo.ui.activity.main.MainActivity
+import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 
 class AuthFragment : BaseFragment(), AuthView {
@@ -47,6 +50,10 @@ class AuthFragment : BaseFragment(), AuthView {
     lateinit var mVerificationId : String
     private lateinit var mCallbacks : PhoneAuthProvider.OnVerificationStateChangedCallbacks
     lateinit var mixpanel : MixpanelAPI
+
+    @Inject lateinit var router: Router
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         GovorilloApplication.INSTANCE.getAppComponent().inject(this)
@@ -98,15 +105,19 @@ class AuthFragment : BaseFragment(), AuthView {
 
     }
 
-        override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         btn_sign_in.setOnClickListener {
             mixpanel.identify(et_email.text.toString())
             mixpanel.people.set("email or phone",et_email.text.toString())
             mixpanel.track("[AuthPresenter] -> Trying to sign in with email/phone number")
-            if (et_pass.isEnabled == false && et_email.text.toString() != "" && et_email.text.length >= 10) {
+            if (!et_pass.isEnabled && et_email.text.toString() != "" && et_email.text.length >= 10) {
                 var phoneNumber : String = TelNumberValidator().validate(et_email.text.toString())
+                if(phoneNumber == ""){
+                    router.showSystemMessage("Номер телефона введен в неверном формате.")
+                    return@setOnClickListener
+                }
                 Log.d("PhoneVer", "Start")
                 PhoneAuthProvider.getInstance(mAuth).verifyPhoneNumber(
                         phoneNumber,        // Phone number to verify
@@ -152,7 +163,7 @@ class AuthFragment : BaseFragment(), AuthView {
                         }
                     }
                 }.show()
-            } else if (et_pass.isEnabled == true){
+            } else if (et_pass.isEnabled){
                 if (EmailValidator().validate(et_email.text.toString())) {
                     mAuthPresenter.trySignIn(et_email.text.toString(), et_pass.text.toString())
                 }
@@ -165,6 +176,10 @@ class AuthFragment : BaseFragment(), AuthView {
             mixpanel.track("[AuthPresenter] -> Trying to sign up with email/phone number")
             if (et_pass.isEnabled == false) {
                 var phoneNumber : String = TelNumberValidator().validate(et_email.text.toString())
+                if(phoneNumber == ""){
+                    router.showSystemMessage("Номер телефона введен в неверном формате.")
+                    return@setOnClickListener
+                }
                 Log.d("PhoneVer", "Start")
                 PhoneAuthProvider.getInstance(mAuth).verifyPhoneNumber(
                         phoneNumber,        // Phone number to verify
@@ -247,21 +262,27 @@ class AuthFragment : BaseFragment(), AuthView {
             })
         }
 
-            which_method_email.setOnClickListener {
-                textInput_email.hint = resources.getString(R.string.hint_email)
-                et_email.setRawInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-                et_pass.enabled = true
-                which_method_email.setBackgroundColor(resources.getColor(R.color.enabledButtonAuth))
-                which_method_tel.setBackgroundColor(resources.getColor(R.color.disabledButtonAuth))
-            }
+        user.onClick {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://govorillo.ru/docs")))
+        }
 
-            which_method_tel.setOnClickListener {
-                textInput_email.hint = resources.getString(R.string.hint_tel)
-                et_email.setRawInputType(InputType.TYPE_CLASS_PHONE)
-                et_pass.enabled = false
-                which_method_email.setBackgroundColor(resources.getColor(R.color.disabledButtonAuth))
-                which_method_tel.setBackgroundColor(resources.getColor(R.color.enabledButtonAuth))
-            }
+        which_method_email.setOnClickListener {
+            textInput_email.hint = resources.getString(R.string.hint_email)
+            et_email.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            textInput_pass.visibility = View.VISIBLE
+            et_pass.enabled = true
+            which_method_email.setBackgroundColor(resources.getColor(R.color.enabledButtonAuth))
+            which_method_tel.setBackgroundColor(resources.getColor(R.color.disabledButtonAuth))
+        }
+
+        which_method_tel.setOnClickListener {
+            textInput_email.hint = resources.getString(R.string.hint_tel)
+            et_email.inputType = InputType.TYPE_CLASS_PHONE
+            textInput_pass.visibility = View.GONE
+            et_pass.enabled = false
+            which_method_email.setBackgroundColor(resources.getColor(R.color.disabledButtonAuth))
+            which_method_tel.setBackgroundColor(resources.getColor(R.color.enabledButtonAuth))
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

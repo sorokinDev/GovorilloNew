@@ -34,10 +34,14 @@
             android:layout_weight="1"
             />
     </LinearLayout>
-    <TextView android:text="Войдите или зарегистрируйтесь для дальнейшего использования приложения."
-        android:layout_height="wrap_content"
+
+    <TextView
         android:layout_width="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Войдите или зарегистрируйтесь для дальнейшего использования приложения."
+        android:textAlignment="center" />
 
     <LinearLayout
         android:layout_centerInParent="true"
@@ -64,12 +68,14 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_password"
             android:id="@+id/textInput_pass">
+
             <EditText
                 android:id="@+id/et_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:layout_marginBottom="5dp"
                 android:imeOptions="actionDone"
+                android:inputType="textPassword"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
         <LinearLayout
@@ -127,6 +133,15 @@
         android:orientation="vertical"
         android:layout_gravity="center_horizontal"
         android:paddingTop="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="55dp"
+            android:text="Обращаем ваше внимание, что нажимая кнопку регистрации, вы подтверждаете, что прочитали и соглашаетесь с пользовательским соглашением и др. документами."
+            android:textAlignment="center"
+            android:textSize="12sp" />
         <mehdi.sakout.fancybuttons.FancyButton
             android:layout_alignParentBottom="true"
             android:id="@+id/user"

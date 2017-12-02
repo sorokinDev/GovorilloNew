@@ -1,13 +1,19 @@
 package com.vsquad.projects.govorillo.ui.activity.main
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -43,6 +49,7 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
 
     companion object {
         const val TAG = "MainActivity"
+        const val RECORD_AUDIO_REQUEST_CODE = 1
         fun getIntent(context: Context): Intent = Intent(context, MainActivity::class.java)
     }
 
@@ -83,6 +90,11 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
                 router.newRootScreen(Screens.AUTH_SCREEN)
             }
             drawer_layout.closeDrawer(Gravity.START)
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), RECORD_AUDIO_REQUEST_CODE)
         }
     }
 
@@ -154,5 +166,24 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView {
         navigationItemSelected(nav_view.menu.findItem(R.id.nav_main))
     }
     //endregion
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == MainActivity.RECORD_AUDIO_REQUEST_CODE && grantResults.size == 1) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                val message = "Микрофон необходим для функционала."
+                Snackbar.make(frame_content, message, Snackbar.LENGTH_LONG)
+                        .setAction("ОК", object : View.OnClickListener {
+                            override fun onClick(v: View) {
+                                if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.RECORD_AUDIO)
+                                        != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.RECORD_AUDIO), RECORD_AUDIO_REQUEST_CODE)
+                                }
+                            }
+                        })
+                        .show()
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 
 }

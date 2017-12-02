@@ -263,7 +263,7 @@ class AuthFragment : BaseFragment(), AuthView {
         }
 
         user.onClick {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://govorillo.ru/agreement.pdf")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://govorillo.ru/docs")))
         }
 
         which_method_email.setOnClickListener {

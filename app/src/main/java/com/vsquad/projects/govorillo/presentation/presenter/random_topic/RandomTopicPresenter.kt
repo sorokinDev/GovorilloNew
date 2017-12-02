@@ -25,7 +25,7 @@ class RandomTopicPresenter : BaseTopicPresenter<RandomTopicView>() {
     lateinit var topic: TopicEntity
     override fun switchSpeakingState() {
         super.switchSpeakingState()
-        if(speakingState == SpeakingState.STARTED){
+        if(speakingState == SpeakingState.STARTING){
             tmrPrep!!.stop()
         }
     }

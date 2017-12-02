@@ -22,21 +22,21 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:text="Когда вы нажмете на кнопку - вы увидете скороговорку. Запись начнется через 7 секунд. Потом вы сможете перейти к следующей скороговорке или посмотреть анализ."/>
+
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/btn_start_twistering"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="100dp"
-                android:text="start"
-                app:fb_fontIconSize="100sp"
+                android:text="Начать"
                 app:fb_defaultColor="#3f729b"
                 app:fb_focusColor="#313131"
-                app:fb_iconPosition="top"
                 app:fb_fontIconResource="&#xf130;"
-                app:fb_radius="180dp"
-                />
+                app:fb_fontIconSize="100sp"
+                app:fb_iconPosition="top"
+                app:fb_radius="180dp" />
         </RelativeLayout>
 
         <RelativeLayout

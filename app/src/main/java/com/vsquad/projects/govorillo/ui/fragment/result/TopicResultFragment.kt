@@ -17,8 +17,11 @@ import com.vsquad.projects.govorillo.common.getRandom
 import com.vsquad.projects.govorillo.model.analyser.BaseTextAnalyser
 import com.vsquad.projects.govorillo.model.analyser.TextAnalysisResult
 import com.vsquad.projects.govorillo.model.analyser.TwisterAnalysisResult
+import com.vsquad.projects.govorillo.model.api.AnalizerApi
+import com.vsquad.projects.govorillo.model.api.ToStringConverterFactory
 import com.vsquad.projects.govorillo.ui.fragment.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_topic_result.*
+import retrofit2.Retrofit
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
@@ -31,6 +34,10 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
         speedView.speedTo(res.speed.toFloat(), 1000)
         //Handler().postDelayed(Runnable { speedView.speedTo(200f, 1000) }, 50)
         //Handler().postDelayed(Runnable { speedView.speedTo(res.speed.toFloat(), 500) }, 1050)
+
+        if (!res.isRandomTopic) {
+            card_result_subject.visibility = View.VISIBLE
+        }
 
         val tooSlow = arrayOf("Вам стоит говорить намного быстрее. Тренируйтесь в скорооворках")
         val bitSlow = arrayOf("Вам немного не достает в скорости речи. Старайтесь уменьшать паузы между словами")
@@ -148,6 +155,12 @@ class TopicResultFragment : BaseFragment(), TopicResultView {
         mixpanel = MixpanelAPI.getInstance(context, resources.getString(R.string.mixpanel_token))
         mixpanel.track("[Topic Result]")
         return inflater.inflate(R.layout.fragment_topic_result, container, false)
+    }
+
+    override fun setSpeechSubject(subj: String, prob: String) {
+        card_result_subject.visibility = View.VISIBLE
+        tv_subject_percent.text = prob
+        tv_subject_text.text = subj
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

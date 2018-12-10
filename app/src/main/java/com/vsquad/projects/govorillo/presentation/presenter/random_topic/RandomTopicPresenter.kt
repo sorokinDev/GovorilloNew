@@ -19,6 +19,11 @@ import ru.yandex.speechkit.Recognizer
 import ru.yandex.speechkit.RecognizerListener
 import ru.yandex.speechkit.SpeechKit
 import javax.inject.Inject
+import android.R.attr.name
+import com.vsquad.projects.govorillo.model.api.ToStringConverterFactory
+import retrofit2.Retrofit
+
+
 
 @InjectViewState
 class RandomTopicPresenter : BaseTopicPresenter<RandomTopicView>() {
@@ -34,7 +39,8 @@ class RandomTopicPresenter : BaseTopicPresenter<RandomTopicView>() {
 
     override fun onRecognitionDone(p0: Recognizer?, p1: Recognition?) {
         super.onRecognitionDone(p0, p1)
-        var res = BaseTextAnalyser.analyse(p1!!.bestResultText, tmrSpeech.curT, -tmrPrep!!.curT+topic.preparingTime, topic)
+        val res = BaseTextAnalyser.analyse(p1!!.bestResultText, tmrSpeech.curT, -tmrPrep!!.curT+topic.preparingTime, topic)
+
         router.navigateTo(Screens.TOPIC_RESULT_SCREEN, res)
     }
 
